@@ -6,18 +6,18 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
   cancel-in-progress: true
 
-# 注意:Pages 相關 action 必須用 Node 24 的版本
-# (GitHub 2026 起強制淘汰 Node 20 runtime,舊版會直接失敗)
+# 部署方式:組好靜態站後直接 force push 到 gh-pages 分支,
+# Pages 設定用「Deploy from a branch → gh-pages → /(root)」。
+# (deploy-pages API 在此 repo 反覆回 "Deployment failed, try again later",
+#  分支模式部署則已驗證可行,故採此路線。)
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -41,21 +41,14 @@ jobs:
           cp app/__init__.py app/wuge.py app/zodiac.py app/core.py _site/app/
           cp data/shuli_81.json data/zodiac_extra.json data/name_pool.json data/english_names.json _site/data/
           cp db/naming.sqlite3 _site/db/
+          touch _site/.nojekyll
 
-      - uses: actions/configure-pages@v6
-        with:
-          enablement: true  # Pages 站台不存在時自動以 GitHub Actions 模式建立
-
-      - uses: actions/upload-pages-artifact@v4
-        with:
-          path: _site
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v5
+      - name: 推送到 gh-pages 分支
+        run: |
+          cd _site
+          git init -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "deploy ${{ github.sha }}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages
