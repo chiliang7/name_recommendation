@@ -14,13 +14,15 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
+# 注意:Pages 相關 action 必須用 Node 24 的版本
+# (GitHub 2026 起強制淘汰 Node 20 runtime,舊版會直接失敗)
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
@@ -40,11 +42,9 @@ jobs:
           cp data/shuli_81.json data/zodiac_extra.json data/name_pool.json data/english_names.json _site/data/
           cp db/naming.sqlite3 _site/db/
 
-      - uses: actions/configure-pages@v5
-        with:
-          enablement: true
+      - uses: actions/configure-pages@v6
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: _site
 
@@ -56,4 +56,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
