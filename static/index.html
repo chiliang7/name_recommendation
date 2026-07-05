@@ -238,11 +238,11 @@ async function api(func, params) {
     return res.ok ? { ok: true, data: d } : { ok: false, detail: d.detail || '發生錯誤' };
   }
   const py = await getPy();
-  py.globals.set('ARGS_JSON', JSON.stringify(params));
+  // 參數以字面量內嵌,避免並發呼叫時共用全域變數被互相覆寫
   const out = await py.runPythonAsync(`
 import json
 from app import core
-_args = json.loads(ARGS_JSON)
+_args = json.loads(${JSON.stringify(JSON.stringify(params))})
 try:
     _res = {"ok": True, "data": core.${func}(**_args)}
 except ValueError as _e:
