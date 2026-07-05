@@ -43,6 +43,8 @@ jobs:
           cp db/naming.sqlite3 _site/db/
 
       - uses: actions/configure-pages@v6
+        with:
+          enablement: true  # Pages 站台不存在時自動以 GitHub Actions 模式建立
 
       - uses: actions/upload-pages-artifact@v4
         with:
