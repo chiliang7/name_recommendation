@@ -1,0 +1,59 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 下載 Unihan(gitignore 的建庫原料)
+        run: |
+          curl -sL -o data/Unihan.zip https://www.unicode.org/Public/UCD/latest/ucd/Unihan.zip
+          unzip -o -q data/Unihan.zip -d data/unihan
+
+      - name: 建置字庫(含筆畫驗證,失敗即中止)
+        run: python data/build_db.py
+
+      - name: 組裝靜態站(index.html + Python 模組 + 資料 + 字庫)
+        run: |
+          mkdir -p _site/app _site/data _site/db
+          cp static/index.html _site/index.html
+          cp app/__init__.py app/wuge.py app/zodiac.py app/core.py _site/app/
+          cp data/shuli_81.json data/zodiac_extra.json data/name_pool.json data/english_names.json _site/data/
+          cp db/naming.sqlite3 _site/db/
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

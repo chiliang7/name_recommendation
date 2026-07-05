@@ -2,7 +2,13 @@
 
 台灣繁體中文取名 web app:三才五格 × 生肖字根 × 康熙筆畫 × 英文名推薦。
 
-## 快速開始
+## 線上版(GitHub Pages)
+
+**https://chiliang7.github.io/name_recommendation/**
+
+無需伺服器——透過 [Pyodide](https://pyodide.org)(WebAssembly 版 Python)直接在瀏覽器內執行同一套 Python 計算引擎與 SQLite 字庫。首次開啟需下載引擎(約 10-20MB,之後有快取)。部署由 GitHub Actions 自動完成:push 到 main → CI 下載 Unihan、重建字庫(含筆畫驗證,失敗即擋下)、組裝靜態站、發佈 Pages。
+
+## 本機快速開始
 
 ```bash
 cd naming-app

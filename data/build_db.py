@@ -9,6 +9,7 @@ import json
 import os
 import re
 import sqlite3
+import sys
 import unicodedata
 from collections import Counter
 
@@ -243,6 +244,8 @@ def main():
     else:
         print(f"✓ {len(expected_tw)} 個驗證字台灣現代筆畫全部正確")
     con.close()
+    if bad or bad_tw:
+        sys.exit(1)  # CI 品質關卡:驗證失敗不部署
 
 
 if __name__ == "__main__":

@@ -74,6 +74,7 @@
     <div class="tab" data-tab="suggest">生肖選字</div>
     <div class="tab" data-tab="names">名字推薦</div>
   </div>
+  <div id="py-status" class="card" style="display:none;background:#fdf8e3;border-color:#e0b400"></div>
 
   <!-- 分析 -->
   <section id="tab-analyze">
@@ -171,18 +172,95 @@ document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const rate = r => `<span class="rate ${esc(r)}">${esc(r)}</span>`;
 
+// ── 後端橋接:本機 server 用 fetch;GitHub Pages 上用 Pyodide 在瀏覽器內直接跑 Python ──
+const PAGES = location.hostname.endsWith('github.io') ||
+              new URLSearchParams(location.search).has('pyodide');
+const PYODIDE_CDN = 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/';
+let _py = null;
+
+async function getPy() {
+  if (!_py) _py = _initPy().catch(e => {
+    _py = null;
+    $('py-status').textContent = '⚠ 載入失敗:' + e.message + '(請重新整理再試)';
+    throw e;
+  });
+  return _py;
+}
+
+async function _initPy() {
+  const bar = $('py-status');
+  bar.style.display = '';
+  bar.textContent = '⏳ 首次載入 Python 引擎(約 10-20MB,之後瀏覽器會快取)…';
+  await new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = PYODIDE_CDN + 'pyodide.js';
+    s.onload = res; s.onerror = () => rej(new Error('無法下載 Pyodide'));
+    document.head.appendChild(s);
+  });
+  const py = await loadPyodide({ indexURL: PYODIDE_CDN });
+  bar.textContent = '⏳ 載入字庫與計算引擎…';
+  await py.loadPackage('sqlite3');  // Pyodide 將 sqlite3 拆為外掛模組
+  py.FS.mkdirTree('/home/pyodide/app');
+  py.FS.mkdirTree('/home/pyodide/data');
+  py.FS.mkdirTree('/home/pyodide/db');
+  const files = ['app/__init__.py', 'app/wuge.py', 'app/zodiac.py', 'app/core.py',
+                 'data/shuli_81.json', 'data/zodiac_extra.json',
+                 'data/name_pool.json', 'data/english_names.json'];
+  await Promise.all(files.map(async f => {
+    const r = await fetch(f);
+    if (!r.ok) throw new Error('缺少 ' + f);
+    py.FS.writeFile('/home/pyodide/' + f, await r.text());
+  }));
+  const dbRes = await fetch('db/naming.sqlite3');
+  if (!dbRes.ok) throw new Error('缺少字庫 db/naming.sqlite3');
+  py.FS.writeFile('/home/pyodide/db/naming.sqlite3',
+                  new Uint8Array(await dbRes.arrayBuffer()));
+  await py.runPythonAsync('import sys\nsys.path.insert(0, "/home/pyodide")\nfrom app import core');
+  bar.style.display = 'none';
+  return py;
+}
+
+const API_HTTP = {
+  analyze: p => fetch('/api/analyze', { method: 'POST',
+    headers: {'Content-Type': 'application/json'}, body: JSON.stringify(p) }),
+  zodiac_rules: p => fetch(`/api/rules?year=${p.year}`),
+  suggest_chars: p => fetch(`/api/suggest-chars?year=${p.year}&gender=${p.gender || ''}`),
+  suggest_names: p => fetch(`/api/suggest-names?surname=${encodeURIComponent(p.surname)}` +
+    `&year=${p.year}&gender=${p.gender || ''}&length=${p.length}` +
+    `&rarity=${p.rarity}&luck=${p.luck}&max_strokes=${p.max_strokes || 0}` +
+    `&like=${encodeURIComponent(p.like || '')}&dislike=${encodeURIComponent(p.dislike || '')}`),
+};
+
+async function api(func, params) {
+  if (!PAGES) {
+    const res = await API_HTTP[func](params);
+    const d = await res.json();
+    return res.ok ? { ok: true, data: d } : { ok: false, detail: d.detail || '發生錯誤' };
+  }
+  const py = await getPy();
+  py.globals.set('ARGS_JSON', JSON.stringify(params));
+  const out = await py.runPythonAsync(`
+import json
+from app import core
+_args = json.loads(ARGS_JSON)
+try:
+    _res = {"ok": True, "data": core.${func}(**_args)}
+except ValueError as _e:
+    _res = {"ok": False, "detail": str(_e)}
+json.dumps(_res, ensure_ascii=False)`);
+  return JSON.parse(out);
+}
+
 async function analyze() {
-  $('a-err').textContent = ''; $('a-result').innerHTML = '';
-  const body = {
+  $('a-err').textContent = ''; $('a-result').innerHTML = '<div class="card muted">計算中…</div>';
+  const r = await api('analyze', {
     surname: $('surname').value.trim(),
     given: $('given').value.trim(),
     year: +$('year').value,
     use_modern: $('basis').value === 'modern'
-  };
-  const res = await fetch('/api/analyze', {method:'POST',
-    headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
-  const d = await res.json();
-  if (!res.ok) { $('a-err').textContent = d.detail || '發生錯誤'; return; }
+  });
+  if (!r.ok) { $('a-err').textContent = r.detail; $('a-result').innerHTML = ''; return; }
+  const d = r.data;
 
   const g = d.grids, sc = g['三才'];
   let html = `<div class="card">
@@ -221,13 +299,17 @@ async function analyze() {
 }
 
 async function suggest() {
-  $('s-result').innerHTML = ''; $('s-rules').innerHTML = '';
+  $('s-result').innerHTML = '<div class="card muted">計算中…</div>'; $('s-rules').innerHTML = '';
   const year = +$('s-year').value, gender = $('s-gender').value;
-  const [rRes, sRes] = await Promise.all([
-    fetch(`/api/rules?year=${year}`),
-    fetch(`/api/suggest-chars?year=${year}&gender=${gender}`)
+  const [rRules, rChars] = await Promise.all([
+    api('zodiac_rules', { year }),
+    api('suggest_chars', { year, gender })
   ]);
-  const rules = await rRes.json(), d = await sRes.json();
+  if (!rRules.ok || !rChars.ok) {
+    $('s-result').innerHTML = `<div class="card err">${esc(rRules.detail || rChars.detail)}</div>`;
+    return;
+  }
+  const rules = rRules.data, d = rChars.data;
 
   $('s-rules').innerHTML = `<div class="card">
     <h3 style="margin:0 0 6px">${d.year} 年(${esc(d.zodiac)}年)喜忌字根</h3>
@@ -262,16 +344,20 @@ async function suggest() {
     </div>`;
 }
 async function suggestNames() {
-  $('n-err').textContent = ''; $('n-result').innerHTML = '';
-  const surname = $('n-surname').value.trim();
-  const res = await fetch(`/api/suggest-names?surname=${encodeURIComponent(surname)}` +
-    `&year=${+$('n-year').value}&gender=${$('n-gender').value}&length=${$('n-length').value}` +
-    `&rarity=${$('n-rarity').value}&luck=${$('n-luck').value}` +
-    `&max_strokes=${+$('n-maxstrokes').value || 0}` +
-    `&like=${encodeURIComponent($('n-like').value)}` +
-    `&dislike=${encodeURIComponent($('n-dislike').value)}`);
-  const d = await res.json();
-  if (!res.ok) { $('n-err').textContent = d.detail || '發生錯誤'; return; }
+  $('n-err').textContent = ''; $('n-result').innerHTML = '<div class="card muted">計算中…</div>';
+  const r = await api('suggest_names', {
+    surname: $('n-surname').value.trim(),
+    year: +$('n-year').value,
+    gender: $('n-gender').value,
+    length: +$('n-length').value,
+    rarity: +$('n-rarity').value,
+    luck: +$('n-luck').value,
+    max_strokes: +$('n-maxstrokes').value || 0,
+    like: $('n-like').value,
+    dislike: $('n-dislike').value
+  });
+  if (!r.ok) { $('n-err').textContent = r.detail; $('n-result').innerHTML = ''; return; }
+  const d = r.data;
 
   let warn = '';
   if (d.missing_like && d.missing_like.length)
@@ -327,6 +413,8 @@ function fillAnalyze(surname, given) {
   analyze();
   window.scrollTo(0, 0);
 }
+
+if (PAGES) getPy();  // Pages 模式:開頁即預載,按按鈕時就不用等
 </script>
 </body>
 </html>
