@@ -1,0 +1,16 @@
+# 建庫產物(python3 data/build_db.py 可重建)
+db/*.sqlite3
+
+# Unihan 原始資料(建庫時需要,從 unicode.org 下載後解壓:
+#   curl -O https://www.unicode.org/Public/UCD/latest/ucd/Unihan.zip
+#   unzip Unihan.zip -d data/unihan)
+data/Unihan.zip
+data/unihan/
+
+# 注:data/ids.txt 與 data/cns/ 刻意納入版控——上游載點不穩定
+#   (cns11643.gov.tw 官方 zip 已失效,靠 GitHub 鏡像取得)
+
+__pycache__/
+*.pyc
+.DS_Store
+.claude/
