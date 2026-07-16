@@ -308,7 +308,7 @@ def suggest_names(surname: str, year: int = 2026, gender: str = "",
     max_strokes 全名總筆畫上限(現代筆畫、實際書寫),0 = 不限
     like 想用的字(如「程,睿」):推薦的名字必含其中至少一字;
          指定字不受性別/生肖忌用剔除,但有忌用會附警語(最多取 4 字)
-    dislike 不想用的字:推薦一律排除(最多 100 字,超過報錯);與 like 衝突時報錯"""
+    dislike 不想用的字:推薦一律排除(最多 200 字,超過報錯);與 like 衝突時報錯"""
     surname = surname.strip()
     if not 1 <= len(surname) <= 2:
         raise ValueError("僅支援一~二字姓")
@@ -330,9 +330,9 @@ def suggest_names(surname: str, year: int = 2026, gender: str = "",
         zo = zodiac.year_to_zodiac(year)
         pool = _candidate_pool(con, zo, gender)
 
-        banned_list = _parse_chars(dislike, max_chars=101)
-        if len(banned_list) > 100:
-            raise ValueError("不想用的字太多(上限 100 字)")
+        banned_list = _parse_chars(dislike, max_chars=201)
+        if len(banned_list) > 200:
+            raise ValueError("不想用的字太多(上限 200 字)")
         banned = set(banned_list)
         liked_chars = _parse_chars(like)
         conflict = banned & set(liked_chars)
