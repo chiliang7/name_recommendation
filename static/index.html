@@ -206,12 +206,13 @@ async function _initPy() {
   const files = ['app/__init__.py', 'app/wuge.py', 'app/zodiac.py', 'app/core.py',
                  'data/shuli_81.json', 'data/zodiac_extra.json',
                  'data/name_pool.json', 'data/english_names.json'];
+  // cache:'no-cache' 走 ETag 驗證:沒更新回 304 免重下載,有更新立即生效
   await Promise.all(files.map(async f => {
-    const r = await fetch(f);
+    const r = await fetch(f, { cache: 'no-cache' });
     if (!r.ok) throw new Error('缺少 ' + f);
     py.FS.writeFile('/home/pyodide/' + f, await r.text());
   }));
-  const dbRes = await fetch('db/naming.sqlite3');
+  const dbRes = await fetch('db/naming.sqlite3', { cache: 'no-cache' });
   if (!dbRes.ok) throw new Error('缺少字庫 db/naming.sqlite3');
   py.FS.writeFile('/home/pyodide/db/naming.sqlite3',
                   new Uint8Array(await dbRes.arrayBuffer()));
