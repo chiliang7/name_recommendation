@@ -100,6 +100,14 @@ def analyze(surname: str, given: str, year: int = 2026, use_modern: bool = False
                                   "score": zodiac.score_char(hits)})
 
         given_infos = infos[len(surname):]
+        s_plains = [i["pinyin_plain"] or "" for i in infos[:len(surname)]]
+        g_plains = [i["pinyin_plain"] or "" for i in given_infos]
+
+        def passport(conv):
+            s = "-".join(conv(p).capitalize() for p in s_plains)
+            g = "-".join(conv(p).capitalize() for p in g_plains)
+            return f"{s.upper()}, {g.upper()}"
+
         return {
             "surname": surname, "given": given, "year": year, "zodiac": zo,
             "stroke_basis": "現代筆畫" if use_modern else "康熙筆畫",
@@ -108,6 +116,10 @@ def analyze(surname: str, given: str, year: int = 2026, use_modern: bool = False
                        "pinyin": c["pinyin"]} for c in infos],
             "grids": grids,
             "zodiac_checks": zodiac_checks,
+            "romanization": {
+                "wade": passport(to_wade),
+                "hanyu": passport(lambda p: p),
+            },
             "english": english_for(given_infos),
         }
     finally:

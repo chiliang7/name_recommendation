@@ -289,6 +289,19 @@ async function analyze() {
   }
   html += `</div>`;
 
+  if (d.romanization) {
+    html += `<div class="card"><h3 style="margin:0 0 6px">護照拼音對照</h3>
+      <div style="display:flex;gap:24px;flex-wrap:wrap">
+        <div><div class="muted" style="font-size:12px">威妥瑪(護照傳統拼法)</div>
+          <div style="font-size:19px;font-weight:700;letter-spacing:1px">${esc(d.romanization.wade)}</div></div>
+        <div><div class="muted" style="font-size:12px">漢語拼音(國際通行拼法)</div>
+          <div style="font-size:19px;font-weight:700;letter-spacing:1px">${esc(d.romanization.hanyu)}</div></div>
+      </div>
+      <div class="muted" style="margin-top:6px;font-size:12px">
+        護照外文姓名可自選拼音系統,姓氏拼法慣例上沿用家人護照;變更原則上以一次為限。</div>
+    </div>`;
+  }
+
   if (d.english.length) {
     html += `<div class="card"><h3 style="margin:0 0 6px">英文名推薦</h3>` +
       d.english.map(e => `<span class="en">${esc(e.name)}
