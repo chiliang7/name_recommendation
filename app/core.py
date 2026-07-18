@@ -178,6 +178,49 @@ _OPEN_FINALS = {"a", "ai", "ao", "an", "ang", "ia", "iao", "ian", "iang",
                 "ua", "uai", "uan", "uang", "ong", "iong", "eng", "ing"}
 
 
+# ── 護照拼音:威妥瑪(外交部護照慣用式,不標送氣符/變音符,ㄅㄆ同為 p)──
+# 對照依據:注音符號與羅馬拼音對照表(文藻外語大學,護照式威妥瑪)
+_WG_WHOLE = {
+    "zhi": "chih", "chi": "chih", "shi": "shih", "ri": "jih",
+    "zi": "tzu", "ci": "tsu", "si": "szu", "er": "erh", "he": "ho",
+    "yan": "yen", "ye": "yeh", "you": "yu", "yong": "yung", "yue": "yueh",
+}
+_WG_INITIALS = [  # 依序比對,zh/ch/sh 需在 z/c/s 之前
+    ("zh", "ch"), ("ch", "ch"), ("sh", "sh"), ("b", "p"), ("p", "p"),
+    ("m", "m"), ("f", "f"), ("d", "t"), ("t", "t"), ("n", "n"), ("l", "l"),
+    ("g", "k"), ("k", "k"), ("h", "h"), ("j", "ch"), ("q", "ch"),
+    ("x", "hs"), ("r", "j"), ("z", "ts"), ("c", "ts"), ("s", "s"),
+]
+
+
+def _wg_final(initial, final):
+    if final == "ian":
+        return "ien"
+    if final == "ie":
+        return "ieh"
+    if final == "ue":
+        return "ueh"
+    if final == "ong":
+        return "ung"
+    if final == "iong":
+        return "iung"
+    if final == "uo":
+        return "uo" if initial in ("g", "k", "h", "sh") else "o"
+    if final == "ui" and initial in ("g", "k"):
+        return "uei"
+    return final
+
+
+def to_wade(plain: str) -> str:
+    """無調漢語拼音 → 護照式威妥瑪(如 jun→chun, xin→hsin, si→szu)"""
+    if plain in _WG_WHOLE:
+        return _WG_WHOLE[plain]
+    for h, w in _WG_INITIALS:
+        if plain.startswith(h):
+            return w + _wg_final(h, plain[len(h):])
+    return plain  # 零聲母(a/an/ai…)與 y/w 系多數不變
+
+
 def _syllable(info):
     """由字庫的拼音欄位取出 聲調/聲母/韻母"""
     tone = 5
@@ -406,6 +449,10 @@ def suggest_names(surname: str, year: int = 2026, gender: str = "",
                 "full": surname + "".join(c["char"] for c in combo),
                 "tones": "-".join(str(s["tone"]) for s in sylls),
                 "pingze": "".join("平" if s["tone"] in (1, 2) else "仄" for s in sylls),
+                "wade": "-".join(to_wade(c["syll"]["plain"]).capitalize()
+                                 for c in combo),
+                "hanyu": "-".join(c["syll"]["plain"].capitalize()
+                                  for c in combo),
                 "phonetic": ph, "notes": notes,
                 "sancai": {"combo": sc["combo"], "rating": sc["rating"]},
                 "zong": grids["總格"]["num"],

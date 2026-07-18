@@ -385,6 +385,8 @@ async function suggestNames() {
   const rows = d.names.map(n => `<tr style="cursor:pointer" title="點擊查看完整分析"
       onclick="fillAnalyze('${esc(d.surname)}','${esc(n.given)}')">
     <td class="ch">${esc(n.full)}<br><span class="muted" style="font-size:12px;font-weight:400">${n.total_modern}劃${n.rare >= 3.5 ? '·冷門' : n.rare >= 2.5 ? '·少見' : ''}</span></td>
+    <td style="white-space:nowrap"><span title="威妥瑪(護照傳統拼法)">威 ${esc(n.wade || '')}</span><br>
+        <span class="muted" title="漢語拼音(國際通行拼法)">漢 ${esc(n.hanyu || '')}</span></td>
     <td>${esc(n.tones)}<br><span class="muted">${esc(n.pingze)}</span></td>
     <td>${n.phonetic}</td>
     <td>${esc(n.sancai.combo)} ${rate(n.sancai.rating)}</td>
@@ -402,7 +404,7 @@ async function suggestNames() {
         border-radius:8px;background:#fffdf9;cursor:pointer;font-size:14px">🎲 換一批</button>
     </div>
     <table class="pool">
-      <tr><th>名字</th><th>聲調/平仄</th><th>音韻分</th><th>三才</th><th>總格</th><th>生肖加分</th><th>寓意/音韻備註</th></tr>
+      <tr><th>名字</th><th>護照拼音(名)</th><th>聲調/平仄</th><th>音韻分</th><th>三才</th><th>總格</th><th>生肖加分</th><th>寓意/音韻備註</th></tr>
       ${rows}
     </table></div>`;
 }
