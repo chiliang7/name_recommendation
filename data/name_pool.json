@@ -1,0 +1,2360 @@
+{
+ "_說明": "取名候選字池。gender: m=偏男 f=偏女 n=中性。筆畫/注音/部件由字庫提供。",
+ "chars": [
+  {
+   "c": "宇",
+   "gender": "m",
+   "gloss": "氣宇軒昂"
+  },
+  {
+   "c": "安",
+   "gender": "n",
+   "gloss": "平安安定"
+  },
+  {
+   "c": "宏",
+   "gender": "m",
+   "gloss": "宏大器度"
+  },
+  {
+   "c": "宸",
+   "gender": "m",
+   "gloss": "帝王居所"
+  },
+  {
+   "c": "家",
+   "gender": "n",
+   "gloss": "家庭圓滿"
+  },
+  {
+   "c": "容",
+   "gender": "f",
+   "gloss": "包容儀容"
+  },
+  {
+   "c": "宜",
+   "gender": "f",
+   "gloss": "適宜合宜"
+  },
+  {
+   "c": "宣",
+   "gender": "n",
+   "gloss": "宣揚明理"
+  },
+  {
+   "c": "寧",
+   "gender": "f",
+   "gloss": "安寧祥和"
+  },
+  {
+   "c": "寬",
+   "gender": "m",
+   "gloss": "寬厚大度"
+  },
+  {
+   "c": "宥",
+   "gender": "m",
+   "gloss": "寬宥仁厚"
+  },
+  {
+   "c": "定",
+   "gender": "m",
+   "gloss": "安定堅定"
+  },
+  {
+   "c": "宗",
+   "gender": "m",
+   "gloss": "宗族傳承"
+  },
+  {
+   "c": "睿",
+   "gender": "m",
+   "gloss": "睿智明達"
+  },
+  {
+   "c": "哲",
+   "gender": "m",
+   "gloss": "哲思智慧"
+  },
+  {
+   "c": "軒",
+   "gender": "m",
+   "gloss": "氣宇軒昂"
+  },
+  {
+   "c": "翔",
+   "gender": "m",
+   "gloss": "展翅飛翔"
+  },
+  {
+   "c": "俊",
+   "gender": "m",
+   "gloss": "俊秀出眾"
+  },
+  {
+   "c": "傑",
+   "gender": "m",
+   "gloss": "人中豪傑"
+  },
+  {
+   "c": "凱",
+   "gender": "m",
+   "gloss": "凱旋得勝"
+  },
+  {
+   "c": "誠",
+   "gender": "m",
+   "gloss": "誠信正直"
+  },
+  {
+   "c": "銘",
+   "gender": "m",
+   "gloss": "銘記於心"
+  },
+  {
+   "c": "毅",
+   "gender": "m",
+   "gloss": "堅毅果敢"
+  },
+  {
+   "c": "霖",
+   "gender": "m",
+   "gloss": "甘霖恩澤"
+  },
+  {
+   "c": "澤",
+   "gender": "m",
+   "gloss": "恩澤深厚"
+  },
+  {
+   "c": "駿",
+   "gender": "m",
+   "gloss": "駿馬奔騰"
+  },
+  {
+   "c": "騰",
+   "gender": "m",
+   "gloss": "騰達飛躍"
+  },
+  {
+   "c": "煜",
+   "gender": "m",
+   "gloss": "光明照耀"
+  },
+  {
+   "c": "昱",
+   "gender": "m",
+   "gloss": "日光明亮"
+  },
+  {
+   "c": "晨",
+   "gender": "n",
+   "gloss": "清晨朝氣"
+  },
+  {
+   "c": "辰",
+   "gender": "m",
+   "gloss": "星辰日月"
+  },
+  {
+   "c": "承",
+   "gender": "m",
+   "gloss": "承先啟後"
+  },
+  {
+   "c": "永",
+   "gender": "m",
+   "gloss": "永恆長久"
+  },
+  {
+   "c": "泓",
+   "gender": "m",
+   "gloss": "水深而廣"
+  },
+  {
+   "c": "浩",
+   "gender": "m",
+   "gloss": "浩然正氣"
+  },
+  {
+   "c": "瀚",
+   "gender": "m",
+   "gloss": "浩瀚無垠"
+  },
+  {
+   "c": "鴻",
+   "gender": "m",
+   "gloss": "鴻圖大展"
+  },
+  {
+   "c": "學",
+   "gender": "m",
+   "gloss": "好學不倦"
+  },
+  {
+   "c": "樂",
+   "gender": "n",
+   "gloss": "快樂和樂"
+  },
+  {
+   "c": "禮",
+   "gender": "m",
+   "gloss": "知書達禮"
+  },
+  {
+   "c": "謙",
+   "gender": "m",
+   "gloss": "謙虛有禮"
+  },
+  {
+   "c": "豐",
+   "gender": "m",
+   "gloss": "豐足富裕"
+  },
+  {
+   "c": "建",
+   "gender": "m",
+   "gloss": "建功立業"
+  },
+  {
+   "c": "彥",
+   "gender": "m",
+   "gloss": "才德出眾"
+  },
+  {
+   "c": "廷",
+   "gender": "m",
+   "gloss": "朝廷才士"
+  },
+  {
+   "c": "青",
+   "gender": "n",
+   "gloss": "青春朝氣"
+  },
+  {
+   "c": "松",
+   "gender": "m",
+   "gloss": "松柏長青"
+  },
+  {
+   "c": "柏",
+   "gender": "m",
+   "gloss": "柏樹堅貞"
+  },
+  {
+   "c": "楷",
+   "gender": "m",
+   "gloss": "楷模典範"
+  },
+  {
+   "c": "楓",
+   "gender": "n",
+   "gloss": "楓紅雅致"
+  },
+  {
+   "c": "梓",
+   "gender": "n",
+   "gloss": "故鄉梓里"
+  },
+  {
+   "c": "森",
+   "gender": "m",
+   "gloss": "森林茂盛"
+  },
+  {
+   "c": "棠",
+   "gender": "f",
+   "gloss": "海棠花美"
+  },
+  {
+   "c": "樺",
+   "gender": "n",
+   "gloss": "樺木挺秀"
+  },
+  {
+   "c": "東",
+   "gender": "m",
+   "gloss": "旭日東昇"
+  },
+  {
+   "c": "文",
+   "gender": "n",
+   "gloss": "文采斐然"
+  },
+  {
+   "c": "武",
+   "gender": "m",
+   "gloss": "英武果敢"
+  },
+  {
+   "c": "信",
+   "gender": "m",
+   "gloss": "信實可靠"
+  },
+  {
+   "c": "忠",
+   "gender": "m",
+   "gloss": "忠誠不移"
+  },
+  {
+   "c": "仁",
+   "gender": "m",
+   "gloss": "仁愛寬厚"
+  },
+  {
+   "c": "義",
+   "gender": "m",
+   "gloss": "正義凜然"
+  },
+  {
+   "c": "智",
+   "gender": "m",
+   "gloss": "智慧聰穎"
+  },
+  {
+   "c": "勇",
+   "gender": "m",
+   "gloss": "勇敢果決"
+  },
+  {
+   "c": "元",
+   "gender": "m",
+   "gloss": "元氣之始"
+  },
+  {
+   "c": "光",
+   "gender": "m",
+   "gloss": "光明磊落"
+  },
+  {
+   "c": "立",
+   "gender": "m",
+   "gloss": "頂天立地"
+  },
+  {
+   "c": "志",
+   "gender": "m",
+   "gloss": "志向遠大"
+  },
+  {
+   "c": "維",
+   "gender": "m",
+   "gloss": "維繫綱常"
+  },
+  {
+   "c": "紹",
+   "gender": "m",
+   "gloss": "紹承家業"
+  },
+  {
+   "c": "經",
+   "gender": "m",
+   "gloss": "經世致用"
+  },
+  {
+   "c": "綸",
+   "gender": "m",
+   "gloss": "經綸滿腹"
+  },
+  {
+   "c": "威",
+   "gender": "m",
+   "gloss": "威儀堂堂"
+  },
+  {
+   "c": "泰",
+   "gender": "m",
+   "gloss": "國泰安康"
+  },
+  {
+   "c": "康",
+   "gender": "m",
+   "gloss": "健康安泰"
+  },
+  {
+   "c": "健",
+   "gender": "m",
+   "gloss": "強健有力"
+  },
+  {
+   "c": "偉",
+   "gender": "m",
+   "gloss": "宏偉遠大"
+  },
+  {
+   "c": "任",
+   "gender": "m",
+   "gloss": "擔當責任"
+  },
+  {
+   "c": "佑",
+   "gender": "m",
+   "gloss": "天佑庇護"
+  },
+  {
+   "c": "佳",
+   "gender": "f",
+   "gloss": "佳美出眾"
+  },
+  {
+   "c": "依",
+   "gender": "f",
+   "gloss": "依偎可親"
+  },
+  {
+   "c": "淑",
+   "gender": "f",
+   "gloss": "淑女賢德"
+  },
+  {
+   "c": "芳",
+   "gender": "f",
+   "gloss": "芳香美好"
+  },
+  {
+   "c": "雅",
+   "gender": "f",
+   "gloss": "優雅高雅"
+  },
+  {
+   "c": "婷",
+   "gender": "f",
+   "gloss": "婷婷玉立"
+  },
+  {
+   "c": "怡",
+   "gender": "f",
+   "gloss": "怡然自得"
+  },
+  {
+   "c": "君",
+   "gender": "n",
+   "gloss": "君子之風"
+  },
+  {
+   "c": "妍",
+   "gender": "f",
+   "gloss": "妍麗動人"
+  },
+  {
+   "c": "妤",
+   "gender": "f",
+   "gloss": "漢代女官"
+  },
+  {
+   "c": "姍",
+   "gender": "f",
+   "gloss": "姍姍步態"
+  },
+  {
+   "c": "娜",
+   "gender": "f",
+   "gloss": "婀娜多姿"
+  },
+  {
+   "c": "婕",
+   "gender": "f",
+   "gloss": "婕妤才女"
+  },
+  {
+   "c": "媛",
+   "gender": "f",
+   "gloss": "名媛淑女"
+  },
+  {
+   "c": "嘉",
+   "gender": "n",
+   "gloss": "嘉言懿行"
+  },
+  {
+   "c": "慧",
+   "gender": "f",
+   "gloss": "慧心巧思"
+  },
+  {
+   "c": "思",
+   "gender": "n",
+   "gloss": "思齊思賢"
+  },
+  {
+   "c": "恩",
+   "gender": "n",
+   "gloss": "感恩惜福"
+  },
+  {
+   "c": "惠",
+   "gender": "f",
+   "gloss": "賢惠恩惠"
+  },
+  {
+   "c": "慈",
+   "gender": "f",
+   "gloss": "慈悲仁愛"
+  },
+  {
+   "c": "晴",
+   "gender": "f",
+   "gloss": "晴朗開朗"
+  },
+  {
+   "c": "昕",
+   "gender": "n",
+   "gloss": "黎明晨光"
+  },
+  {
+   "c": "芸",
+   "gender": "f",
+   "gloss": "芸香才女"
+  },
+  {
+   "c": "茹",
+   "gender": "f",
+   "gloss": "茹苦含辛"
+  },
+  {
+   "c": "菁",
+   "gender": "f",
+   "gloss": "菁英才華"
+  },
+  {
+   "c": "萱",
+   "gender": "f",
+   "gloss": "萱草忘憂"
+  },
+  {
+   "c": "蓉",
+   "gender": "f",
+   "gloss": "芙蓉出水"
+  },
+  {
+   "c": "薇",
+   "gender": "f",
+   "gloss": "薔薇花香"
+  },
+  {
+   "c": "芷",
+   "gender": "f",
+   "gloss": "白芷幽香"
+  },
+  {
+   "c": "蘭",
+   "gender": "f",
+   "gloss": "蘭心蕙質"
+  },
+  {
+   "c": "若",
+   "gender": "f",
+   "gloss": "若水上善"
+  },
+  {
+   "c": "英",
+   "gender": "n",
+   "gloss": "英才出眾"
+  },
+  {
+   "c": "采",
+   "gender": "f",
+   "gloss": "神采奕奕"
+  },
+  {
+   "c": "紫",
+   "gender": "f",
+   "gloss": "紫氣東來"
+  },
+  {
+   "c": "綺",
+   "gender": "f",
+   "gloss": "綺麗華美"
+  },
+  {
+   "c": "美",
+   "gender": "f",
+   "gloss": "美善兼備"
+  },
+  {
+   "c": "羽",
+   "gender": "n",
+   "gloss": "羽翼漸豐"
+  },
+  {
+   "c": "翎",
+   "gender": "f",
+   "gloss": "翎羽華美"
+  },
+  {
+   "c": "育",
+   "gender": "n",
+   "gloss": "作育英才"
+  },
+  {
+   "c": "靜",
+   "gender": "f",
+   "gloss": "沉靜安詳"
+  },
+  {
+   "c": "韻",
+   "gender": "f",
+   "gloss": "氣韻優雅"
+  },
+  {
+   "c": "穎",
+   "gender": "f",
+   "gloss": "聰穎脫俗"
+  },
+  {
+   "c": "琪",
+   "gender": "f",
+   "gloss": "美玉琪花"
+  },
+  {
+   "c": "琳",
+   "gender": "f",
+   "gloss": "琳瑯美玉"
+  },
+  {
+   "c": "瑜",
+   "gender": "n",
+   "gloss": "美玉無瑕"
+  },
+  {
+   "c": "瑤",
+   "gender": "f",
+   "gloss": "瑤池仙境"
+  },
+  {
+   "c": "珊",
+   "gender": "f",
+   "gloss": "珊瑚珍寶"
+  },
+  {
+   "c": "珮",
+   "gender": "f",
+   "gloss": "玉珮高潔"
+  },
+  {
+   "c": "玲",
+   "gender": "f",
+   "gloss": "玲瓏剔透"
+  },
+  {
+   "c": "珍",
+   "gender": "f",
+   "gloss": "珍貴珍愛"
+  },
+  {
+   "c": "璇",
+   "gender": "f",
+   "gloss": "璇玉星光"
+  },
+  {
+   "c": "真",
+   "gender": "f",
+   "gloss": "純真率真"
+  },
+  {
+   "c": "曼",
+   "gender": "f",
+   "gloss": "曼妙輕柔"
+  },
+  {
+   "c": "涵",
+   "gender": "f",
+   "gloss": "涵養內斂"
+  },
+  {
+   "c": "淇",
+   "gender": "f",
+   "gloss": "淇水清澈"
+  },
+  {
+   "c": "潔",
+   "gender": "f",
+   "gloss": "潔身自愛"
+  },
+  {
+   "c": "澄",
+   "gender": "n",
+   "gloss": "澄澈明淨"
+  },
+  {
+   "c": "沛",
+   "gender": "m",
+   "gloss": "充沛豐盈"
+  },
+  {
+   "c": "雨",
+   "gender": "n",
+   "gloss": "潤物春雨"
+  },
+  {
+   "c": "雲",
+   "gender": "n",
+   "gloss": "行雲流水"
+  },
+  {
+   "c": "霏",
+   "gender": "f",
+   "gloss": "雨雪霏霏"
+  },
+  {
+   "c": "雪",
+   "gender": "f",
+   "gloss": "冰雪聰明"
+  },
+  {
+   "c": "虹",
+   "gender": "f",
+   "gloss": "彩虹絢麗"
+  },
+  {
+   "c": "欣",
+   "gender": "f",
+   "gloss": "欣欣向榮"
+  },
+  {
+   "c": "歆",
+   "gender": "f",
+   "gloss": "歆羨喜悅"
+  },
+  {
+   "c": "詩",
+   "gender": "f",
+   "gloss": "詩情畫意"
+  },
+  {
+   "c": "語",
+   "gender": "f",
+   "gloss": "語笑嫣然"
+  },
+  {
+   "c": "詠",
+   "gender": "f",
+   "gloss": "歌詠讚美"
+  },
+  {
+   "c": "馨",
+   "gender": "f",
+   "gloss": "溫馨馨香"
+  },
+  {
+   "c": "宛",
+   "gender": "f",
+   "gloss": "宛轉柔美"
+  },
+  {
+   "c": "妮",
+   "gender": "f",
+   "gloss": "嬌俏可人"
+  },
+  {
+   "c": "姿",
+   "gender": "f",
+   "gloss": "姿態優雅"
+  },
+  {
+   "c": "娟",
+   "gender": "f",
+   "gloss": "娟秀清麗"
+  },
+  {
+   "c": "婉",
+   "gender": "f",
+   "gloss": "溫婉柔順"
+  },
+  {
+   "c": "嫻",
+   "gender": "f",
+   "gloss": "嫻靜端莊"
+  },
+  {
+   "c": "曉",
+   "gender": "f",
+   "gloss": "破曉晨光"
+  },
+  {
+   "c": "柔",
+   "gender": "f",
+   "gloss": "溫柔敦厚"
+  },
+  {
+   "c": "桂",
+   "gender": "f",
+   "gloss": "桂馥蘭香"
+  },
+  {
+   "c": "梅",
+   "gender": "f",
+   "gloss": "梅花傲骨"
+  },
+  {
+   "c": "彤",
+   "gender": "f",
+   "gloss": "紅彤朝陽"
+  },
+  {
+   "c": "彩",
+   "gender": "f",
+   "gloss": "多彩多姿"
+  },
+  {
+   "c": "希",
+   "gender": "f",
+   "gloss": "希望盼望"
+  },
+  {
+   "c": "心",
+   "gender": "f",
+   "gloss": "心地善良"
+  },
+  {
+   "c": "愷",
+   "gender": "m",
+   "gloss": "和樂愷悌"
+  },
+  {
+   "c": "愉",
+   "gender": "f",
+   "gloss": "愉悅開懷"
+  },
+  {
+   "c": "悅",
+   "gender": "f",
+   "gloss": "喜悅歡欣"
+  },
+  {
+   "c": "晞",
+   "gender": "f",
+   "gloss": "晨光初曬"
+  },
+  {
+   "c": "旭",
+   "gender": "m",
+   "gloss": "旭日初昇"
+  },
+  {
+   "c": "明",
+   "gender": "m",
+   "gloss": "光明磊落"
+  },
+  {
+   "c": "昆",
+   "gender": "m",
+   "gloss": "昆仲手足"
+  },
+  {
+   "c": "星",
+   "gender": "n",
+   "gloss": "星光燦爛"
+  },
+  {
+   "c": "書",
+   "gender": "n",
+   "gloss": "詩書傳家"
+  },
+  {
+   "c": "海",
+   "gender": "n",
+   "gloss": "海納百川"
+  },
+  {
+   "c": "峰",
+   "gender": "m",
+   "gloss": "登峰造極"
+  },
+  {
+   "c": "崇",
+   "gender": "m",
+   "gloss": "崇高敬重"
+  },
+  {
+   "c": "嵐",
+   "gender": "f",
+   "gloss": "山嵐靈秀"
+  },
+  {
+   "c": "岳",
+   "gender": "m",
+   "gloss": "五岳崇高"
+  },
+  {
+   "c": "均",
+   "gender": "n",
+   "gloss": "均衡公正"
+  },
+  {
+   "c": "坤",
+   "gender": "m",
+   "gloss": "乾坤大地"
+  },
+  {
+   "c": "培",
+   "gender": "m",
+   "gloss": "栽培養育"
+  },
+  {
+   "c": "堂",
+   "gender": "m",
+   "gloss": "堂堂正正"
+  },
+  {
+   "c": "圳",
+   "gender": "m",
+   "gloss": "水圳灌溉"
+  },
+  {
+   "c": "垣",
+   "gender": "m",
+   "gloss": "城垣穩固"
+  },
+  {
+   "c": "皓",
+   "gender": "m",
+   "gloss": "皓月當空"
+  },
+  {
+   "c": "白",
+   "gender": "n",
+   "gloss": "清白純淨"
+  },
+  {
+   "c": "百",
+   "gender": "m",
+   "gloss": "百福具臻"
+  },
+  {
+   "c": "貝",
+   "gender": "f",
+   "gloss": "寶貝珍愛"
+  },
+  {
+   "c": "賢",
+   "gender": "m",
+   "gloss": "賢能有德"
+  },
+  {
+   "c": "貴",
+   "gender": "m",
+   "gloss": "富貴榮華"
+  },
+  {
+   "c": "資",
+   "gender": "n",
+   "gloss": "天資聰穎"
+  },
+  {
+   "c": "越",
+   "gender": "m",
+   "gloss": "超越卓越"
+  },
+  {
+   "c": "超",
+   "gender": "m",
+   "gloss": "超群出眾"
+  },
+  {
+   "c": "路",
+   "gender": "m",
+   "gloss": "前路寬廣"
+  },
+  {
+   "c": "達",
+   "gender": "m",
+   "gloss": "通達顯達"
+  },
+  {
+   "c": "運",
+   "gender": "m",
+   "gloss": "時來運轉"
+  },
+  {
+   "c": "遠",
+   "gender": "m",
+   "gloss": "深謀遠慮"
+  },
+  {
+   "c": "適",
+   "gender": "m",
+   "gloss": "安適自得"
+  },
+  {
+   "c": "醇",
+   "gender": "m",
+   "gloss": "醇厚質樸"
+  },
+  {
+   "c": "金",
+   "gender": "m",
+   "gloss": "金玉滿堂"
+  },
+  {
+   "c": "鈞",
+   "gender": "m",
+   "gloss": "雷霆萬鈞"
+  },
+  {
+   "c": "鋒",
+   "gender": "m",
+   "gloss": "鋒芒畢露"
+  },
+  {
+   "c": "錦",
+   "gender": "m",
+   "gloss": "錦繡前程"
+  },
+  {
+   "c": "鎮",
+   "gender": "m",
+   "gloss": "鎮定自若"
+  },
+  {
+   "c": "長",
+   "gender": "m",
+   "gloss": "長長久久"
+  },
+  {
+   "c": "雋",
+   "gender": "m",
+   "gloss": "雋永深刻"
+  },
+  {
+   "c": "雙",
+   "gender": "f",
+   "gloss": "好事成雙"
+  },
+  {
+   "c": "風",
+   "gender": "m",
+   "gloss": "風度翩翩"
+  },
+  {
+   "c": "飛",
+   "gender": "m",
+   "gloss": "飛黃騰達"
+  },
+  {
+   "c": "香",
+   "gender": "f",
+   "gloss": "香氣芬芳"
+  },
+  {
+   "c": "馥",
+   "gender": "f",
+   "gloss": "馥郁芬芳"
+  },
+  {
+   "c": "高",
+   "gender": "m",
+   "gloss": "高風亮節"
+  },
+  {
+   "c": "麗",
+   "gender": "f",
+   "gloss": "美麗秀麗"
+  },
+  {
+   "c": "麟",
+   "gender": "m",
+   "gloss": "麒麟祥瑞"
+  },
+  {
+   "c": "鳳",
+   "gender": "f",
+   "gloss": "鳳凰于飛"
+  },
+  {
+   "c": "鵬",
+   "gender": "m",
+   "gloss": "鵬程萬里"
+  },
+  {
+   "c": "和",
+   "gender": "n",
+   "gloss": "和氣致祥"
+  },
+  {
+   "c": "平",
+   "gender": "n",
+   "gloss": "平安順遂"
+  },
+  {
+   "c": "幸",
+   "gender": "f",
+   "gloss": "幸福美滿"
+  },
+  {
+   "c": "年",
+   "gender": "m",
+   "gloss": "豐年吉慶"
+  },
+  {
+   "c": "祐",
+   "gender": "m",
+   "gloss": "神明保祐"
+  },
+  {
+   "c": "祈",
+   "gender": "f",
+   "gloss": "祈願祝福"
+  },
+  {
+   "c": "禾",
+   "gender": "n",
+   "gloss": "禾苗茁壯"
+  },
+  {
+   "c": "秉",
+   "gender": "m",
+   "gloss": "秉持正道"
+  },
+  {
+   "c": "秀",
+   "gender": "f",
+   "gloss": "秀外慧中"
+  },
+  {
+   "c": "程",
+   "gender": "m",
+   "gloss": "前程似錦"
+  },
+  {
+   "c": "穆",
+   "gender": "m",
+   "gloss": "肅穆莊重"
+  },
+  {
+   "c": "竹",
+   "gender": "n",
+   "gloss": "虛心有節"
+  },
+  {
+   "c": "笙",
+   "gender": "f",
+   "gloss": "笙歌雅樂"
+  },
+  {
+   "c": "簡",
+   "gender": "n",
+   "gloss": "簡約真純"
+  },
+  {
+   "c": "米",
+   "gender": "f",
+   "gloss": "豐衣足食"
+  },
+  {
+   "c": "粲",
+   "gender": "f",
+   "gloss": "粲然明亮"
+  },
+  {
+   "c": "紘",
+   "gender": "m",
+   "gloss": "恢弘廣大"
+  },
+  {
+   "c": "統",
+   "gender": "m",
+   "gloss": "統領大局"
+  },
+  {
+   "c": "綾",
+   "gender": "f",
+   "gloss": "綾羅綢緞"
+  },
+  {
+   "c": "緯",
+   "gender": "m",
+   "gloss": "經天緯地"
+  },
+  {
+   "c": "縉",
+   "gender": "m",
+   "gloss": "縉紳雅士"
+  },
+  {
+   "c": "繹",
+   "gender": "m",
+   "gloss": "絡繹不絕"
+  },
+  {
+   "c": "羚",
+   "gender": "f",
+   "gloss": "羚羊靈巧"
+  },
+  {
+   "c": "群",
+   "gender": "m",
+   "gloss": "卓然出群"
+  },
+  {
+   "c": "義",
+   "gender": "m",
+   "gloss": "義薄雲天"
+  },
+  {
+   "c": "翊",
+   "gender": "m",
+   "gloss": "翊贊輔佐"
+  },
+  {
+   "c": "翰",
+   "gender": "m",
+   "gloss": "翰墨文章"
+  },
+  {
+   "c": "聖",
+   "gender": "m",
+   "gloss": "聖賢之道"
+  },
+  {
+   "c": "聰",
+   "gender": "m",
+   "gloss": "聰明睿智"
+  },
+  {
+   "c": "育",
+   "gender": "n",
+   "gloss": "作育英才"
+  },
+  {
+   "c": "至",
+   "gender": "m",
+   "gloss": "至善至美"
+  },
+  {
+   "c": "臻",
+   "gender": "f",
+   "gloss": "日臻完善"
+  },
+  {
+   "c": "芊",
+   "gender": "f",
+   "gloss": "芊芊草茂"
+  },
+  {
+   "c": "苡",
+   "gender": "f",
+   "gloss": "薏苡嘉穀"
+  },
+  {
+   "c": "茉",
+   "gender": "f",
+   "gloss": "茉莉清香"
+  },
+  {
+   "c": "荷",
+   "gender": "f",
+   "gloss": "荷花高潔"
+  },
+  {
+   "c": "莉",
+   "gender": "f",
+   "gloss": "茉莉芬芳"
+  },
+  {
+   "c": "菱",
+   "gender": "f",
+   "gloss": "菱花照水"
+  },
+  {
+   "c": "葳",
+   "gender": "f",
+   "gloss": "葳蕤茂盛"
+  },
+  {
+   "c": "蓁",
+   "gender": "f",
+   "gloss": "草木蓁蓁"
+  },
+  {
+   "c": "蕎",
+   "gender": "f",
+   "gloss": "蕎麥樸實"
+  },
+  {
+   "c": "藝",
+   "gender": "f",
+   "gloss": "多才多藝"
+  },
+  {
+   "c": "虔",
+   "gender": "m",
+   "gloss": "虔誠敬慎"
+  },
+  {
+   "c": "裕",
+   "gender": "m",
+   "gloss": "富裕充足"
+  },
+  {
+   "c": "襄",
+   "gender": "m",
+   "gloss": "襄助成事"
+  },
+  {
+   "c": "見",
+   "gender": "m",
+   "gloss": "遠見卓識"
+  },
+  {
+   "c": "觀",
+   "gender": "m",
+   "gloss": "觀瀾知海"
+  },
+  {
+   "c": "諒",
+   "gender": "m",
+   "gloss": "體諒信實"
+  },
+  {
+   "c": "謹",
+   "gender": "m",
+   "gloss": "謹言慎行"
+  },
+  {
+   "c": "豪",
+   "gender": "m",
+   "gloss": "豪氣干雲"
+  },
+  {
+   "c": "赫",
+   "gender": "m",
+   "gloss": "顯赫聲名"
+  },
+  {
+   "c": "軍",
+   "gender": "m",
+   "gloss": "軍伍威嚴"
+  },
+  {
+   "c": "輝",
+   "gender": "m",
+   "gloss": "光輝燦爛"
+  },
+  {
+   "c": "初",
+   "gender": "f",
+   "gloss": "初心不忘"
+  },
+  {
+   "c": "利",
+   "gender": "m",
+   "gloss": "無往不利"
+  },
+  {
+   "c": "力",
+   "gender": "m",
+   "gloss": "力爭上游"
+  },
+  {
+   "c": "勤",
+   "gender": "m",
+   "gloss": "勤勉不懈"
+  },
+  {
+   "c": "勳",
+   "gender": "m",
+   "gloss": "功勳卓著"
+  },
+  {
+   "c": "升",
+   "gender": "m",
+   "gloss": "步步高升"
+  },
+  {
+   "c": "卿",
+   "gender": "f",
+   "gloss": "卿相之才"
+  },
+  {
+   "c": "友",
+   "gender": "m",
+   "gloss": "友愛互助"
+  },
+  {
+   "c": "右",
+   "gender": "n",
+   "gloss": "左輔右弼"
+  },
+  {
+   "c": "可",
+   "gender": "f",
+   "gloss": "可親可愛"
+  },
+  {
+   "c": "唯",
+   "gender": "f",
+   "gloss": "唯真唯善"
+  },
+  {
+   "c": "啟",
+   "gender": "m",
+   "gloss": "啟迪開創"
+  },
+  {
+   "c": "善",
+   "gender": "n",
+   "gloss": "善良美善"
+  },
+  {
+   "c": "喜",
+   "gender": "f",
+   "gloss": "喜氣洋洋"
+  },
+  {
+   "c": "嘉",
+   "gender": "n",
+   "gloss": "嘉德懿行"
+  },
+  {
+   "c": "圓",
+   "gender": "f",
+   "gloss": "圓滿如意"
+  },
+  {
+   "c": "士",
+   "gender": "m",
+   "gloss": "士人風骨"
+  },
+  {
+   "c": "壯",
+   "gender": "m",
+   "gloss": "壯志凌雲"
+  },
+  {
+   "c": "夏",
+   "gender": "f",
+   "gloss": "夏日繁盛"
+  },
+  {
+   "c": "天",
+   "gender": "m",
+   "gloss": "天賦不凡"
+  },
+  {
+   "c": "奇",
+   "gender": "m",
+   "gloss": "奇才卓犖"
+  },
+  {
+   "c": "奕",
+   "gender": "m",
+   "gloss": "神采奕奕"
+  },
+  {
+   "c": "妍",
+   "gender": "f",
+   "gloss": "妍美動人"
+  },
+  {
+   "c": "始",
+   "gender": "f",
+   "gloss": "慎始善終"
+  },
+  {
+   "c": "威",
+   "gender": "m",
+   "gloss": "威風凜凜"
+  },
+  {
+   "c": "孝",
+   "gender": "m",
+   "gloss": "孝順傳家"
+  },
+  {
+   "c": "季",
+   "gender": "n",
+   "gloss": "四季如春"
+  },
+  {
+   "c": "常",
+   "gender": "m",
+   "gloss": "持之以常"
+  },
+  {
+   "c": "幼",
+   "gender": "f",
+   "gloss": "幼吾之幼"
+  },
+  {
+   "c": "庭",
+   "gender": "n",
+   "gloss": "庭園幽雅"
+  },
+  {
+   "c": "彬",
+   "gender": "m",
+   "gloss": "文質彬彬"
+  },
+  {
+   "c": "德",
+   "gender": "m",
+   "gloss": "德高望重"
+  },
+  {
+   "c": "徽",
+   "gender": "f",
+   "gloss": "徽音美譽"
+  },
+  {
+   "c": "忻",
+   "gender": "f",
+   "gloss": "欣喜開懷"
+  },
+  {
+   "c": "念",
+   "gender": "f",
+   "gloss": "心心念念"
+  },
+  {
+   "c": "成",
+   "gender": "m",
+   "gloss": "馬到成功"
+  },
+  {
+   "c": "政",
+   "gender": "m",
+   "gloss": "為政以德"
+  },
+  {
+   "c": "敏",
+   "gender": "f",
+   "gloss": "敏而好學"
+  },
+  {
+   "c": "敬",
+   "gender": "m",
+   "gloss": "敬事而信"
+  },
+  {
+   "c": "整",
+   "gender": "m",
+   "gloss": "嚴整有度"
+  },
+  {
+   "c": "斌",
+   "gender": "m",
+   "gloss": "文武兼備"
+  },
+  {
+   "c": "新",
+   "gender": "n",
+   "gloss": "日新又新"
+  },
+  {
+   "c": "方",
+   "gender": "m",
+   "gloss": "方正不阿"
+  },
+  {
+   "c": "施",
+   "gender": "f",
+   "gloss": "樂善好施"
+  },
+  {
+   "c": "旻",
+   "gender": "m",
+   "gloss": "秋日天空"
+  },
+  {
+   "c": "春",
+   "gender": "f",
+   "gloss": "春風化雨"
+  },
+  {
+   "c": "是",
+   "gender": "m",
+   "gloss": "實事求是"
+  },
+  {
+   "c": "時",
+   "gender": "m",
+   "gloss": "時來運轉"
+  },
+  {
+   "c": "晉",
+   "gender": "m",
+   "gloss": "晉升高位"
+  },
+  {
+   "c": "晏",
+   "gender": "n",
+   "gloss": "海晏河清"
+  },
+  {
+   "c": "晚",
+   "gender": "f",
+   "gloss": "晚霞絢爛"
+  },
+  {
+   "c": "景",
+   "gender": "m",
+   "gloss": "景星慶雲"
+  },
+  {
+   "c": "會",
+   "gender": "m",
+   "gloss": "會通古今"
+  },
+  {
+   "c": "朋",
+   "gender": "m",
+   "gloss": "高朋滿座"
+  },
+  {
+   "c": "朗",
+   "gender": "m",
+   "gloss": "明朗開闊"
+  },
+  {
+   "c": "本",
+   "gender": "m",
+   "gloss": "正本清源"
+  },
+  {
+   "c": "材",
+   "gender": "m",
+   "gloss": "棟樑之材"
+  },
+  {
+   "c": "杰",
+   "gender": "m",
+   "gloss": "英杰俊才"
+  },
+  {
+   "c": "枝",
+   "gender": "f",
+   "gloss": "玉葉金枝"
+  },
+  {
+   "c": "柔",
+   "gender": "f",
+   "gloss": "以柔克剛"
+  },
+  {
+   "c": "柚",
+   "gender": "f",
+   "gloss": "柚香清新"
+  },
+  {
+   "c": "栩",
+   "gender": "n",
+   "gloss": "栩栩如生"
+  },
+  {
+   "c": "桐",
+   "gender": "n",
+   "gloss": "梧桐引鳳"
+  },
+  {
+   "c": "桓",
+   "gender": "m",
+   "gloss": "桓桓威武"
+  },
+  {
+   "c": "梧",
+   "gender": "m",
+   "gloss": "魁梧英挺"
+  },
+  {
+   "c": "楊",
+   "gender": "n",
+   "gloss": "楊柳依依"
+  },
+  {
+   "c": "榆",
+   "gender": "f",
+   "gloss": "榆樹厚實"
+  },
+  {
+   "c": "榮",
+   "gender": "m",
+   "gloss": "欣欣向榮"
+  },
+  {
+   "c": "槿",
+   "gender": "f",
+   "gloss": "木槿朝開"
+  },
+  {
+   "c": "樂",
+   "gender": "n",
+   "gloss": "知足常樂"
+  },
+  {
+   "c": "樹",
+   "gender": "m",
+   "gloss": "十年樹木"
+  },
+  {
+   "c": "橙",
+   "gender": "f",
+   "gloss": "橙黃橘綠"
+  },
+  {
+   "c": "檀",
+   "gender": "f",
+   "gloss": "檀香高貴"
+  },
+  {
+   "c": "欣",
+   "gender": "f",
+   "gloss": "欣然自得"
+  },
+  {
+   "c": "正",
+   "gender": "m",
+   "gloss": "正大光明"
+  },
+  {
+   "c": "民",
+   "gender": "m",
+   "gloss": "民胞物與"
+  },
+  {
+   "c": "沂",
+   "gender": "n",
+   "gloss": "浴乎沂水"
+  },
+  {
+   "c": "沐",
+   "gender": "n",
+   "gloss": "如沐春風"
+  },
+  {
+   "c": "沛",
+   "gender": "m",
+   "gloss": "沛然充盈"
+  },
+  {
+   "c": "泉",
+   "gender": "m",
+   "gloss": "源頭活水"
+  },
+  {
+   "c": "泛",
+   "gender": "m",
+   "gloss": "泛愛眾生"
+  },
+  {
+   "c": "洋",
+   "gender": "n",
+   "gloss": "汪洋浩瀚"
+  },
+  {
+   "c": "洛",
+   "gender": "f",
+   "gloss": "洛水之神"
+  },
+  {
+   "c": "津",
+   "gender": "n",
+   "gloss": "津潤有味"
+  },
+  {
+   "c": "洵",
+   "gender": "m",
+   "gloss": "洵美且仁"
+  },
+  {
+   "c": "浚",
+   "gender": "m",
+   "gloss": "浚哲文明"
+  },
+  {
+   "c": "淞",
+   "gender": "m",
+   "gloss": "淞水清流"
+  },
+  {
+   "c": "淮",
+   "gender": "m",
+   "gloss": "淮水安瀾"
+  },
+  {
+   "c": "深",
+   "gender": "m",
+   "gloss": "深思熟慮"
+  },
+  {
+   "c": "清",
+   "gender": "n",
+   "gloss": "清雅脫俗"
+  },
+  {
+   "c": "渝",
+   "gender": "m",
+   "gloss": "堅貞不渝"
+  },
+  {
+   "c": "溢",
+   "gender": "m",
+   "gloss": "才華洋溢"
+  },
+  {
+   "c": "漢",
+   "gender": "m",
+   "gloss": "氣沖霄漢"
+  },
+  {
+   "c": "潤",
+   "gender": "m",
+   "gloss": "溫潤如玉"
+  },
+  {
+   "c": "濬",
+   "gender": "m",
+   "gloss": "濬智深察"
+  },
+  {
+   "c": "灝",
+   "gender": "m",
+   "gloss": "灝氣浩大"
+  },
+  {
+   "c": "為",
+   "gender": "m",
+   "gloss": "大有可為"
+  },
+  {
+   "c": "煦",
+   "gender": "n",
+   "gloss": "和煦溫暖"
+  },
+  {
+   "c": "熙",
+   "gender": "n",
+   "gloss": "熙和光明"
+  },
+  {
+   "c": "燁",
+   "gender": "m",
+   "gloss": "燁燁光輝"
+  },
+  {
+   "c": "燦",
+   "gender": "f",
+   "gloss": "燦爛奪目"
+  },
+  {
+   "c": "爵",
+   "gender": "m",
+   "gloss": "加官晉爵"
+  },
+  {
+   "c": "玄",
+   "gender": "m",
+   "gloss": "玄妙深遠"
+  },
+  {
+   "c": "玉",
+   "gender": "f",
+   "gloss": "溫潤如玉"
+  },
+  {
+   "c": "王",
+   "gender": "m",
+   "gloss": "王者風範"
+  },
+  {
+   "c": "玫",
+   "gender": "f",
+   "gloss": "玫瑰嬌豔"
+  },
+  {
+   "c": "玟",
+   "gender": "f",
+   "gloss": "美石如玉"
+  },
+  {
+   "c": "珀",
+   "gender": "m",
+   "gloss": "琥珀溫潤"
+  },
+  {
+   "c": "珞",
+   "gender": "f",
+   "gloss": "瓔珞華美"
+  },
+  {
+   "c": "現",
+   "gender": "m",
+   "gloss": "才華畢現"
+  },
+  {
+   "c": "瑄",
+   "gender": "f",
+   "gloss": "璧玉瑄圭"
+  },
+  {
+   "c": "瑞",
+   "gender": "m",
+   "gloss": "祥瑞吉兆"
+  },
+  {
+   "c": "瑾",
+   "gender": "f",
+   "gloss": "懷瑾握瑜"
+  },
+  {
+   "c": "璋",
+   "gender": "m",
+   "gloss": "圭璋特達"
+  },
+  {
+   "c": "璞",
+   "gender": "m",
+   "gloss": "璞玉渾金"
+  },
+  {
+   "c": "瓊",
+   "gender": "f",
+   "gloss": "瓊樓玉宇"
+  },
+  {
+   "c": "甯",
+   "gender": "f",
+   "gloss": "安甯祥和"
+  },
+  {
+   "c": "田",
+   "gender": "m",
+   "gloss": "良田沃土"
+  },
+  {
+   "c": "由",
+   "gender": "m",
+   "gloss": "自由自在"
+  },
+  {
+   "c": "甲",
+   "gender": "m",
+   "gloss": "富甲一方"
+  },
+  {
+   "c": "畇",
+   "gender": "f",
+   "gloss": "田地平整"
+  },
+  {
+   "c": "留",
+   "gender": "f",
+   "gloss": "青史留名"
+  },
+  {
+   "c": "登",
+   "gender": "m",
+   "gloss": "五穀豐登"
+  },
+  {
+   "c": "發",
+   "gender": "m",
+   "gloss": "奮發向上"
+  },
+  {
+   "c": "益",
+   "gender": "m",
+   "gloss": "精益求精"
+  },
+  {
+   "c": "盛",
+   "gender": "m",
+   "gloss": "繁榮昌盛"
+  },
+  {
+   "c": "直",
+   "gender": "m",
+   "gloss": "正直不阿"
+  },
+  {
+   "c": "相",
+   "gender": "m",
+   "gloss": "將相之才"
+  },
+  {
+   "c": "眉",
+   "gender": "f",
+   "gloss": "眉目如畫"
+  },
+  {
+   "c": "真",
+   "gender": "f",
+   "gloss": "返璞歸真"
+  },
+  {
+   "c": "睦",
+   "gender": "m",
+   "gloss": "和睦相處"
+  },
+  {
+   "c": "瞻",
+   "gender": "m",
+   "gloss": "高瞻遠矚"
+  },
+  {
+   "c": "知",
+   "gender": "n",
+   "gloss": "知書達禮"
+  },
+  {
+   "c": "祥",
+   "gender": "m",
+   "gloss": "吉祥如意"
+  },
+  {
+   "c": "祿",
+   "gender": "m",
+   "gloss": "福祿雙全"
+  },
+  {
+   "c": "福",
+   "gender": "m",
+   "gloss": "福澤綿長"
+  },
+  {
+   "c": "禎",
+   "gender": "f",
+   "gloss": "禎祥吉慶"
+  },
+  {
+   "c": "秋",
+   "gender": "f",
+   "gloss": "秋高氣爽"
+  },
+  {
+   "c": "科",
+   "gender": "m",
+   "gloss": "金榜題名"
+  },
+  {
+   "c": "稚",
+   "gender": "f",
+   "gloss": "赤子稚心"
+  },
+  {
+   "c": "穗",
+   "gender": "f",
+   "gloss": "稻穗豐實"
+  },
+  {
+   "c": "立",
+   "gender": "m",
+   "gloss": "立身行道"
+  },
+  {
+   "c": "章",
+   "gender": "m",
+   "gloss": "斐然成章"
+  },
+  {
+   "c": "童",
+   "gender": "n",
+   "gloss": "赤子童心"
+  },
+  {
+   "c": "端",
+   "gender": "m",
+   "gloss": "端正莊重"
+  },
+  {
+   "c": "竣",
+   "gender": "m",
+   "gloss": "大功告竣"
+  },
+  {
+   "c": "紜",
+   "gender": "f",
+   "gloss": "紛紜繁盛"
+  },
+  {
+   "c": "純",
+   "gender": "f",
+   "gloss": "純真無邪"
+  },
+  {
+   "c": "素",
+   "gender": "f",
+   "gloss": "樸素高雅"
+  },
+  {
+   "c": "翌",
+   "gender": "m",
+   "gloss": "翌日光明"
+  },
+  {
+   "c": "耘",
+   "gender": "m",
+   "gloss": "深耕易耨"
+  },
+  {
+   "c": "聿",
+   "gender": "m",
+   "gloss": "聿修厥德"
+  },
+  {
+   "c": "肇",
+   "gender": "m",
+   "gloss": "肇基立業"
+  },
+  {
+   "c": "臨",
+   "gender": "m",
+   "gloss": "君臨天下"
+  },
+  {
+   "c": "與",
+   "gender": "m",
+   "gloss": "與人為善"
+  },
+  {
+   "c": "舒",
+   "gender": "f",
+   "gloss": "舒展自如"
+  },
+  {
+   "c": "航",
+   "gender": "m",
+   "gloss": "揚帆遠航"
+  },
+  {
+   "c": "船",
+   "gender": "m",
+   "gloss": "同舟共濟"
+  },
+  {
+   "c": "良",
+   "gender": "m",
+   "gloss": "溫良恭儉"
+  },
+  {
+   "c": "色",
+   "gender": "f",
+   "gloss": "春色滿園"
+  },
+  {
+   "c": "茂",
+   "gender": "m",
+   "gloss": "根深葉茂"
+  },
+  {
+   "c": "萌",
+   "gender": "f",
+   "gloss": "萬物萌發"
+  },
+  {
+   "c": "葦",
+   "gender": "m",
+   "gloss": "一葦以航"
+  },
+  {
+   "c": "蒙",
+   "gender": "m",
+   "gloss": "啟蒙發智"
+  },
+  {
+   "c": "蒼",
+   "gender": "m",
+   "gloss": "蒼松翠柏"
+  },
+  {
+   "c": "蓮",
+   "gender": "f",
+   "gloss": "蓮花高潔"
+  },
+  {
+   "c": "衡",
+   "gender": "m",
+   "gloss": "持衡守正"
+  },
+  {
+   "c": "裴",
+   "gender": "f",
+   "gloss": "裴然成章"
+  },
+  {
+   "c": "西",
+   "gender": "f",
+   "gloss": "西方祥瑞"
+  },
+  {
+   "c": "言",
+   "gender": "m",
+   "gloss": "言而有信"
+  },
+  {
+   "c": "詹",
+   "gender": "m",
+   "gloss": "詹言慎行"
+  },
+  {
+   "c": "諭",
+   "gender": "m",
+   "gloss": "曉諭明理"
+  },
+  {
+   "c": "謙",
+   "gender": "m",
+   "gloss": "謙謙君子"
+  },
+  {
+   "c": "識",
+   "gender": "m",
+   "gloss": "博聞多識"
+  },
+  {
+   "c": "貞",
+   "gender": "f",
+   "gloss": "堅貞不移"
+  },
+  {
+   "c": "赫",
+   "gender": "m",
+   "gloss": "赫赫有名"
+  },
+  {
+   "c": "走",
+   "gender": "m",
+   "gloss": "行遍天下"
+  },
+  {
+   "c": "軒",
+   "gender": "m",
+   "gloss": "器宇軒昂"
+  },
+  {
+   "c": "載",
+   "gender": "m",
+   "gloss": "厚德載物"
+  },
+  {
+   "c": "辰",
+   "gender": "m",
+   "gloss": "良辰美景"
+  },
+  {
+   "c": "迪",
+   "gender": "m",
+   "gloss": "啟迪智慧"
+  },
+  {
+   "c": "邦",
+   "gender": "m",
+   "gloss": "安邦定國"
+  },
+  {
+   "c": "鄉",
+   "gender": "n",
+   "gloss": "飲水思源"
+  },
+  {
+   "c": "重",
+   "gender": "m",
+   "gloss": "穩重敦厚"
+  },
+  {
+   "c": "銓",
+   "gender": "m",
+   "gloss": "銓衡量才"
+  },
+  {
+   "c": "銳",
+   "gender": "m",
+   "gloss": "銳意進取"
+  },
+  {
+   "c": "錚",
+   "gender": "m",
+   "gloss": "鐵骨錚錚"
+  },
+  {
+   "c": "鍾",
+   "gender": "n",
+   "gloss": "鍾靈毓秀"
+  },
+  {
+   "c": "開",
+   "gender": "m",
+   "gloss": "開創新局"
+  },
+  {
+   "c": "閎",
+   "gender": "m",
+   "gloss": "閎中肆外"
+  },
+  {
+   "c": "陽",
+   "gender": "m",
+   "gloss": "陽光普照"
+  },
+  {
+   "c": "雋",
+   "gender": "m",
+   "gloss": "雋才俊彥"
+  },
+  {
+   "c": "震",
+   "gender": "m",
+   "gloss": "威震四方"
+  },
+  {
+   "c": "霆",
+   "gender": "m",
+   "gloss": "雷霆之勢"
+  },
+  {
+   "c": "青",
+   "gender": "n",
+   "gloss": "青出於藍"
+  },
+  {
+   "c": "靖",
+   "gender": "m",
+   "gloss": "靖安天下"
+  },
+  {
+   "c": "頌",
+   "gender": "f",
+   "gloss": "歌功頌德"
+  },
+  {
+   "c": "頎",
+   "gender": "m",
+   "gloss": "碩人其頎"
+  },
+  {
+   "c": "顥",
+   "gender": "m",
+   "gloss": "顥氣清明"
+  },
+  {
+   "c": "馥",
+   "gender": "f",
+   "gloss": "馥郁芳香"
+  },
+  {
+   "c": "驊",
+   "gender": "m",
+   "gloss": "驊騮駿馬"
+  },
+  {
+   "c": "鹿",
+   "gender": "f",
+   "gloss": "鹿鳴呦呦"
+  },
+  {
+   "c": "麥",
+   "gender": "n",
+   "gloss": "麥浪豐收"
+  },
+  {
+   "c": "黛",
+   "gender": "f",
+   "gloss": "眉黛青山"
+  },
+  {
+   "c": "齊",
+   "gender": "m",
+   "gloss": "見賢思齊"
+  }
+ ]
+}

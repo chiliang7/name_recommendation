@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>寶寶取名助手</title>
+<style>
+  :root {
+    --bg: #faf7f2; --card: #ffffff; --ink: #333; --muted: #8a8378;
+    --accent: #b5483a; --gold: #c9a227; --good: #2e7d4f; --bad: #b5483a;
+    --line: #e8e2d8;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+         background: var(--bg); color: var(--ink); }
+  header { text-align: center; padding: 28px 16px 8px; }
+  header h1 { margin: 0; font-size: 26px; letter-spacing: 4px; color: var(--accent); }
+  header p  { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 16px; }
+  .tabs { display: flex; gap: 8px; margin: 16px 0; }
+  .tab { flex: 1; padding: 10px; text-align: center; border: 1px solid var(--line);
+         border-radius: 10px; background: var(--card); cursor: pointer; font-size: 15px; }
+  .tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+          padding: 18px; margin-bottom: 16px; }
+  label { font-size: 13px; color: var(--muted); display: block; margin-bottom: 4px; }
+  input[type=text], input[type=number], select {
+    width: 100%; padding: 10px; font-size: 16px; border: 1px solid var(--line);
+    border-radius: 8px; background: #fffdf9; }
+  .row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .row > div { flex: 1; min-width: 120px; }
+  button.go { margin-top: 14px; width: 100%; padding: 12px; font-size: 16px; border: 0;
+              border-radius: 10px; background: var(--accent); color: #fff; cursor: pointer; }
+  button.go:hover { opacity: .92; }
+  .err { color: var(--bad); margin-top: 10px; font-size: 14px; }
+  .grids { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 10px 0; }
+  .grid-cell { border: 1px solid var(--line); border-radius: 10px; padding: 10px;
+               text-align: center; background: #fffdf9; }
+  .grid-cell .g-name { font-size: 12px; color: var(--muted); }
+  .grid-cell .g-num  { font-size: 22px; font-weight: 700; }
+  .grid-cell .g-wx   { font-size: 13px; color: var(--gold); }
+  .rate { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; }
+  .rate.吉, .rate.大吉 { background: #e6f4ec; color: var(--good); }
+  .rate.半吉, .rate.中 { background: #fdf3d8; color: #8a6d1a; }
+  .rate.凶, .rate.大凶 { background: #fbe9e7; color: var(--bad); }
+  .sancai { font-size: 20px; font-weight: 700; letter-spacing: 6px; }
+  ul.plain { padding-left: 18px; margin: 8px 0; font-size: 14px; color: #555; }
+  .zchar { border-top: 1px dashed var(--line); padding: 10px 0; }
+  .zchar b { font-size: 18px; }
+  .hit { font-size: 13px; margin: 3px 0 3px 12px; }
+  .hit.favor::before { content: "✓ "; color: var(--good); }
+  .hit.avoid::before { content: "✗ "; color: var(--bad); }
+  .en { display: inline-block; margin: 4px 6px 0 0; padding: 5px 12px;
+        border: 1px solid var(--line); border-radius: 999px; font-size: 14px; background: #fffdf9; }
+  .en small { color: var(--muted); }
+  table.pool { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.pool th, table.pool td { padding: 8px 6px; border-bottom: 1px solid var(--line); text-align: left; }
+  table.pool td.ch { font-size: 20px; font-weight: 700; }
+  .tag { display: inline-block; margin: 0 4px 2px 0; padding: 1px 7px; border-radius: 999px;
+         font-size: 12px; background: #eef4fb; color: #2a5d8f; }
+  .muted { color: var(--muted); font-size: 13px; }
+  footer { text-align: center; color: var(--muted); font-size: 12px; padding: 20px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>寶寶取名助手</h1>
+  <p>三才五格 × 生肖字根 × 康熙筆畫 × 英文名推薦</p>
+</header>
+<div class="wrap">
+
+  <div class="tabs">
+    <div class="tab active" data-tab="analyze">名字分析</div>
+    <div class="tab" data-tab="suggest">生肖選字</div>
+    <div class="tab" data-tab="names">名字推薦</div>
+  </div>
+  <div id="py-status" class="card" style="display:none;background:#fdf8e3;border-color:#e0b400"></div>
+
+  <!-- 分析 -->
+  <section id="tab-analyze">
+    <div class="card">
+      <div class="row">
+        <div><label>姓氏</label><input type="text" id="surname" maxlength="2" placeholder="例:陳"></div>
+        <div><label>名字(1–2 字)</label><input type="text" id="given" maxlength="2" placeholder="例:駿宇"></div>
+        <div><label>出生年(西元)</label><input type="number" id="year" value="2026"></div>
+        <div><label>筆畫基準</label>
+          <select id="basis">
+            <option value="kangxi" selected>康熙筆畫(命理標準)</option>
+            <option value="modern">現代筆畫(參考)</option>
+          </select>
+        </div>
+      </div>
+      <button class="go" onclick="analyze()">分析</button>
+      <div class="err" id="a-err"></div>
+    </div>
+    <div id="a-result"></div>
+  </section>
+
+  <!-- 選字 -->
+  <section id="tab-suggest" style="display:none">
+    <div class="card">
+      <div class="row">
+        <div><label>出生年(西元)</label><input type="number" id="s-year" value="2026"></div>
+        <div><label>性別傾向</label>
+          <select id="s-gender">
+            <option value="">不限</option>
+            <option value="m">男寶</option>
+            <option value="f">女寶</option>
+          </select>
+        </div>
+      </div>
+      <button class="go" onclick="suggest()">推薦適合的字</button>
+    </div>
+    <div id="s-rules"></div>
+    <div id="s-result"></div>
+  </section>
+
+  <!-- 名字推薦 -->
+  <section id="tab-names" style="display:none">
+    <div class="card">
+      <div class="row">
+        <div><label>姓氏</label><input type="text" id="n-surname" maxlength="2" placeholder="例:郭"></div>
+        <div><label>名字字數</label>
+          <select id="n-length"><option value="2" selected>雙字名</option><option value="1">單字名</option></select>
+        </div>
+        <div><label>性別傾向</label>
+          <select id="n-gender"><option value="">不限</option><option value="m">男寶</option><option value="f">女寶</option></select>
+        </div>
+        <div><label>出生年(西元)</label><input type="number" id="n-year" value="2026"></div>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <div><label>用字冷門度</label>
+          <select id="n-rarity">
+            <option value="0">常見優先</option>
+            <option value="1" selected>均衡</option>
+            <option value="2">偏冷門(獨特)</option>
+          </select>
+        </div>
+        <div><label>吉度門檻</label>
+          <select id="n-luck">
+            <option value="2">嚴選(三才大吉+數理皆吉)</option>
+            <option value="1" selected>吉以上</option>
+            <option value="0">寬鬆(不凶即可)</option>
+          </select>
+        </div>
+        <div><label>全名總筆畫上限(含姓,書寫筆畫)</label>
+          <input type="number" id="n-maxstrokes" placeholder="不限" min="0"></div>
+        <div><label>想用的字(可多個,任意分隔)</label>
+          <input type="text" id="n-like" placeholder="例:程,睿"></div>
+        <div><label>不想用的字</label>
+          <input type="text" id="n-dislike" placeholder="例:豪、蓉"></div>
+      </div>
+      <button class="go" onclick="suggestNames()">推薦名字</button>
+      <div class="err" id="n-err"></div>
+    </div>
+    <div id="n-result"></div>
+  </section>
+
+</div>
+<footer>僅供參考,取名開心最重要 ❤️</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+  t.classList.add('active');
+  for (const name of ['analyze', 'suggest', 'names'])
+    $('tab-' + name).style.display = t.dataset.tab === name ? '' : 'none';
+});
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const rate = r => `<span class="rate ${esc(r)}">${esc(r)}</span>`;
+
+// ── 後端橋接:本機 server 用 fetch;GitHub Pages 上用 Pyodide 在瀏覽器內直接跑 Python ──
+const PAGES = location.hostname.endsWith('github.io') ||
+              new URLSearchParams(location.search).has('pyodide');
+const PYODIDE_CDN = 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/';
+let _py = null;
+
+async function getPy() {
+  if (!_py) _py = _initPy().catch(e => {
+    _py = null;
+    $('py-status').textContent = '⚠ 載入失敗:' + e.message + '(請重新整理再試)';
+    throw e;
+  });
+  return _py;
+}
+
+async function _initPy() {
+  const bar = $('py-status');
+  bar.style.display = '';
+  bar.textContent = '⏳ 首次載入 Python 引擎(約 10-20MB,之後瀏覽器會快取)…';
+  await new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = PYODIDE_CDN + 'pyodide.js';
+    s.onload = res; s.onerror = () => rej(new Error('無法下載 Pyodide'));
+    document.head.appendChild(s);
+  });
+  const py = await loadPyodide({ indexURL: PYODIDE_CDN });
+  bar.textContent = '⏳ 載入字庫與計算引擎…';
+  await py.loadPackage('sqlite3');  // Pyodide 將 sqlite3 拆為外掛模組
+  py.FS.mkdirTree('/home/pyodide/app');
+  py.FS.mkdirTree('/home/pyodide/data');
+  py.FS.mkdirTree('/home/pyodide/db');
+  const files = ['app/__init__.py', 'app/wuge.py', 'app/zodiac.py', 'app/core.py',
+                 'data/shuli_81.json', 'data/zodiac_extra.json',
+                 'data/name_pool.json', 'data/english_names.json'];
+  // cache:'no-cache' 走 ETag 驗證:沒更新回 304 免重下載,有更新立即生效
+  await Promise.all(files.map(async f => {
+    const r = await fetch(f, { cache: 'no-cache' });
+    if (!r.ok) throw new Error('缺少 ' + f);
+    py.FS.writeFile('/home/pyodide/' + f, await r.text());
+  }));
+  const dbRes = await fetch('db/naming.sqlite3', { cache: 'no-cache' });
+  if (!dbRes.ok) throw new Error('缺少字庫 db/naming.sqlite3');
+  py.FS.writeFile('/home/pyodide/db/naming.sqlite3',
+                  new Uint8Array(await dbRes.arrayBuffer()));
+  await py.runPythonAsync('import sys\nsys.path.insert(0, "/home/pyodide")\nfrom app import core');
+  bar.style.display = 'none';
+  return py;
+}
+
+const API_HTTP = {
+  analyze: p => fetch('/api/analyze', { method: 'POST',
+    headers: {'Content-Type': 'application/json'}, body: JSON.stringify(p) }),
+  zodiac_rules: p => fetch(`/api/rules?year=${p.year}`),
+  suggest_chars: p => fetch(`/api/suggest-chars?year=${p.year}&gender=${p.gender || ''}`),
+  suggest_names: p => fetch(`/api/suggest-names?surname=${encodeURIComponent(p.surname)}` +
+    `&year=${p.year}&gender=${p.gender || ''}&length=${p.length}` +
+    `&rarity=${p.rarity}&luck=${p.luck}&max_strokes=${p.max_strokes || 0}` +
+    `&like=${encodeURIComponent(p.like || '')}&dislike=${encodeURIComponent(p.dislike || '')}`),
+};
+
+async function api(func, params) {
+  if (!PAGES) {
+    const res = await API_HTTP[func](params);
+    const d = await res.json();
+    return res.ok ? { ok: true, data: d } : { ok: false, detail: d.detail || '發生錯誤' };
+  }
+  const py = await getPy();
+  // 參數以字面量內嵌,避免並發呼叫時共用全域變數被互相覆寫
+  const out = await py.runPythonAsync(`
+import json
+from app import core
+_args = json.loads(${JSON.stringify(JSON.stringify(params))})
+try:
+    _res = {"ok": True, "data": core.${func}(**_args)}
+except ValueError as _e:
+    _res = {"ok": False, "detail": str(_e)}
+json.dumps(_res, ensure_ascii=False)`);
+  return JSON.parse(out);
+}
+
+async function analyze() {
+  $('a-err').textContent = ''; $('a-result').innerHTML = '<div class="card muted">計算中…</div>';
+  const r = await api('analyze', {
+    surname: $('surname').value.trim(),
+    given: $('given').value.trim(),
+    year: +$('year').value,
+    use_modern: $('basis').value === 'modern'
+  });
+  if (!r.ok) { $('a-err').textContent = r.detail; $('a-result').innerHTML = ''; return; }
+  const d = r.data;
+
+  const g = d.grids, sc = g['三才'];
+  let html = `<div class="card">
+    <div class="muted">${d.year} 年生肖:<b>${esc(d.zodiac)}</b>|筆畫基準:${esc(d.stroke_basis)}|
+      ${d.chars.map(c => `${esc(c.char)}(${c.kangxi}畫)`).join(' ')}</div>
+    <h3 style="margin:10px 0 4px">三才:<span class="sancai">${esc(sc.combo)}</span> ${rate(sc.rating)}</h3>
+    <ul class="plain">${sc.relations.map(r => `<li>${esc(r)}</li>`).join('')}</ul>
+    <div class="grids">` +
+    ['天格','人格','地格','外格','總格'].map(k => {
+      const v = g[k];
+      return `<div class="grid-cell"><div class="g-name">${k}</div>
+        <div class="g-num">${v.num}</div><div class="g-wx">${esc(v.wuxing)}</div>
+        ${rate(v.shuli.rating)}<div class="muted" style="margin-top:4px">${esc(v.shuli.desc)}</div></div>`;
+    }).join('') + `</div></div>`;
+
+  html += `<div class="card"><h3 style="margin:0 0 6px">生肖字根檢查(${esc(d.zodiac)}年)</h3>`;
+  for (const z of d.zodiac_checks) {
+    html += `<div class="zchar"><b>${esc(z.char)}</b>`;
+    if (!z.hits.favor.length && !z.hits.avoid.length)
+      html += ` <span class="muted">無特別喜忌,中性</span>`;
+    for (const h of z.hits.favor)
+      html += `<div class="hit favor">${esc(h.tag)}|字根 ${h.matched.map(esc).join('、')}:${esc(h.reason)}</div>`;
+    for (const h of z.hits.avoid)
+      html += `<div class="hit avoid">${esc(h.tag)}|字根 ${h.matched.map(esc).join('、')}:${esc(h.reason)}</div>`;
+    html += `</div>`;
+  }
+  html += `</div>`;
+
+  if (d.romanization) {
+    html += `<div class="card"><h3 style="margin:0 0 6px">護照拼音對照</h3>
+      <div style="display:flex;gap:24px;flex-wrap:wrap">
+        <div><div class="muted" style="font-size:12px">威妥瑪(護照傳統拼法)</div>
+          <div style="font-size:19px;font-weight:700;letter-spacing:1px">${esc(d.romanization.wade)}</div></div>
+        <div><div class="muted" style="font-size:12px">漢語拼音(國際通行拼法)</div>
+          <div style="font-size:19px;font-weight:700;letter-spacing:1px">${esc(d.romanization.hanyu)}</div></div>
+      </div>
+      <div class="muted" style="margin-top:6px;font-size:12px">
+        護照外文姓名可自選拼音系統,姓氏拼法慣例上沿用家人護照;變更原則上以一次為限。</div>
+    </div>`;
+  }
+
+  if (d.english.length) {
+    html += `<div class="card"><h3 style="margin:0 0 6px">英文名推薦</h3>` +
+      d.english.map(e => `<span class="en">${esc(e.name)}
+        <small>${e.g==='m'?'♂':e.g==='f'?'♀':'⚥'} ${esc(e.match)}${e.why?'·'+esc(e.why):''}</small></span>`).join('') +
+      `</div>`;
+  }
+  $('a-result').innerHTML = html;
+}
+
+async function suggest() {
+  $('s-result').innerHTML = '<div class="card muted">計算中…</div>'; $('s-rules').innerHTML = '';
+  const year = +$('s-year').value, gender = $('s-gender').value;
+  const [rRules, rChars] = await Promise.all([
+    api('zodiac_rules', { year }),
+    api('suggest_chars', { year, gender })
+  ]);
+  if (!rRules.ok || !rChars.ok) {
+    $('s-result').innerHTML = `<div class="card err">${esc(rRules.detail || rChars.detail)}</div>`;
+    return;
+  }
+  const rules = rRules.data, d = rChars.data;
+
+  $('s-rules').innerHTML = `<div class="card">
+    <h3 style="margin:0 0 6px">${d.year} 年(${esc(d.zodiac)}年)喜忌字根</h3>
+    <div><b style="color:var(--good)">宜</b> ${rules.rules.favor.map(r =>
+      `<span class="tag">${esc(r.tag)}:${r.roots.map(esc).join('')}</span>`).join('')}</div>
+    <div style="margin-top:6px"><b style="color:var(--bad)">忌</b> ${rules.rules.avoid.map(r =>
+      `<span class="tag" style="background:#fbe9e7;color:var(--bad)">${esc(r.tag)}:${r.roots.map(esc).join('')}</span>`).join('')}</div>
+  </div>`;
+
+  const table = list => `<table class="pool">
+    <tr><th>字</th><th>拼音</th><th>康熙筆畫</th><th>部首</th><th>屬性</th><th>寓意</th><th>生肖評註</th></tr>` +
+    list.map(c => `<tr>
+      <td class="ch">${esc(c.char)}</td><td>${esc(c.pinyin)}</td>
+      <td>${c.kangxi}</td><td>${esc(c.radical)}</td>
+      <td>${c.gender==='m'?'男':c.gender==='f'?'女':'通用'}</td>
+      <td>${esc(c.gloss)}</td>
+      <td>${c.favor.map(f => `<span class="tag">${esc(f)}</span>`).join('')}
+          ${(c.caveat||[]).map(v => `<span class="tag" style="background:#fdf3d8;color:#8a6d1a" title="${esc(v)}">${esc(v.split(':')[0])}</span>`).join('')}
+          ${!c.favor.length && !(c.caveat||[]).length ? '<span class="muted">中性</span>' : ''}</td>
+    </tr>`).join('') + `</table>`;
+
+  $('s-result').innerHTML = `
+    <div class="card">
+      <h3 style="margin:0 0 2px;color:var(--good)">佳選 ${d.best.length} 字</h3>
+      <div class="muted" style="margin-bottom:6px">含生肖喜用字根、無任何忌用,依契合度排序</div>
+      ${table(d.best)}
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 2px;color:#8a6d1a">次佳 ${d.good.length} 字</h3>
+      <div class="muted" style="margin-bottom:6px">中性無喜忌,或僅有輕微小忌可斟酌(黃標,滑鼠停留看原因);犯重忌者已剔除</div>
+      ${table(d.good)}
+    </div>`;
+}
+async function suggestNames() {
+  $('n-err').textContent = ''; $('n-result').innerHTML = '<div class="card muted">計算中…</div>';
+  const r = await api('suggest_names', {
+    surname: $('n-surname').value.trim(),
+    year: +$('n-year').value,
+    gender: $('n-gender').value,
+    length: +$('n-length').value,
+    rarity: +$('n-rarity').value,
+    luck: +$('n-luck').value,
+    max_strokes: +$('n-maxstrokes').value || 0,
+    like: $('n-like').value,
+    dislike: $('n-dislike').value
+  });
+  if (!r.ok) { $('n-err').textContent = r.detail; $('n-result').innerHTML = ''; return; }
+  const d = r.data;
+
+  let warn = '';
+  if (d.missing_like && d.missing_like.length)
+    warn += `<div class="card" style="border-color:#e0b400;background:#fdf8e3">
+      ⚠ 想用的字查無:${d.missing_like.map(esc).join('、')}(限 Big5 繁體字),已忽略。</div>`;
+  if (d.liked_unmatched && d.liked_unmatched.length)
+    warn += `<div class="card" style="border-color:#e0b400;background:#fdf8e3">
+      ⚠ 「${d.liked_unmatched.map(esc).join('、')}」與「${esc(d.surname)}」姓在目前吉度門檻下
+      沒有合格組合(筆畫結構使三才偏凶)。想看這些字的組合,請把吉度門檻調成「寬鬆」。</div>`;
+  const matched = (d.liked || []).filter(c => !(d.liked_unmatched || []).includes(c));
+  if (matched.length || (d.disliked || []).length) {
+    const parts = [];
+    if (matched.length) parts.push(`以下名字皆包含指定字:${matched.map(esc).join('、')}`);
+    if ((d.disliked || []).length) parts.push(`已排除 ${d.disliked.length} 字:${d.disliked.map(esc).join('、')}`);
+    warn += `<div class="card" style="border-color:#cfe3cf;background:#f2f9f2">✓ ${parts.join('<br>✓ ')}</div>`;
+  }
+  if (d.luck_relaxed && !d.sancai_warning)
+    warn += `<div class="card" style="border-color:#e0b400;background:#fdf8e3">
+      ⚠ 此條件下沒有達到所選吉度門檻的組合,已自動放寬顯示較普通的名字。</div>`;
+  if (d.sancai_warning)
+    warn += `<div class="card" style="border-color:#e0b400;background:#fdf8e3">
+      ⚠ 「${esc(d.surname)}」姓配${d.length === 1 ? '單' : '雙'}字名,三才結構上均為凶
+      (人格與地格生剋固定)。以下依音韻與生肖排序供參考,建議改試${d.length === 1 ? '雙' : '單'}字名。</div>`;
+
+  const rows = d.names.map(n => `<tr style="cursor:pointer" title="點擊查看完整分析"
+      onclick="fillAnalyze('${esc(d.surname)}','${esc(n.given)}')">
+    <td class="ch">${esc(n.full)}<br><span class="muted" style="font-size:12px;font-weight:400">${n.total_modern}劃${n.rare >= 3.5 ? '·冷門' : n.rare >= 2.5 ? '·少見' : ''}</span></td>
+    <td style="white-space:nowrap"><span title="威妥瑪(護照傳統拼法)">威 ${esc(n.wade || '')}</span><br>
+        <span class="muted" title="漢語拼音(國際通行拼法)">漢 ${esc(n.hanyu || '')}</span></td>
+    <td>${esc(n.tones)}<br><span class="muted">${esc(n.pingze)}</span></td>
+    <td>${n.phonetic}</td>
+    <td>${esc(n.sancai.combo)} ${rate(n.sancai.rating)}</td>
+    <td>${n.zong} ${rate(n.zong_rating)}</td>
+    <td>${n.favor.map(f => `<span class="tag">${esc(f)}</span>`).join('') || '<span class="muted">—</span>'}</td>
+    <td class="muted">${esc(n.gloss)}<br>${n.notes.map(esc).join(';')}</td>
+  </tr>`).join('');
+
+  $('n-result').innerHTML = warn + `<div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px">
+      <div class="muted">
+        共 ${d.total} 個合格組合(已排除生肖重忌、三才大凶、人/地/總格數理凶),
+        依分數加權隨機抽 ${d.names.length} 個;點擊名字看完整分析,諧音請自己唸唸看。</div>
+      <button onclick="suggestNames()" style="flex-shrink:0;padding:8px 16px;border:1px solid var(--line);
+        border-radius:8px;background:#fffdf9;cursor:pointer;font-size:14px">🎲 換一批</button>
+    </div>
+    <table class="pool">
+      <tr><th>名字</th><th>護照拼音(名)</th><th>聲調/平仄</th><th>音韻分</th><th>三才</th><th>總格</th><th>生肖加分</th><th>寓意/音韻備註</th></tr>
+      ${rows}
+    </table></div>`;
+}
+
+function fillAnalyze(surname, given) {
+  $('surname').value = surname; $('given').value = given;
+  document.querySelector('[data-tab="analyze"]').click();
+  analyze();
+  window.scrollTo(0, 0);
+}
+
+if (PAGES) getPy();  // Pages 模式:開頁即預載,按按鈕時就不用等
+</script>
+</body>
+</html>
