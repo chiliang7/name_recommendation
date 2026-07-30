@@ -149,6 +149,14 @@
           <input type="text" id="n-like" placeholder="例:程,睿"></div>
         <div><label>不想用的字</label>
           <input type="text" id="n-dislike" placeholder="例:豪、蓉"></div>
+        <div><label>每批推薦數量</label>
+          <select id="n-limit">
+            <option value="40">40 個</option>
+            <option value="100" selected>100 個</option>
+            <option value="300">300 個</option>
+            <option value="1000">1000 個</option>
+          </select>
+        </div>
       </div>
       <button class="go" onclick="suggestNames()">推薦名字</button>
       <div class="err" id="n-err"></div>
@@ -371,9 +379,12 @@ async function suggestNames() {
     luck: +$('n-luck').value,
     max_strokes: +$('n-maxstrokes').value || 0,
     like: $('n-like').value,
-    dislike: $('n-dislike').value
+    dislike: $('n-dislike').value,
+    limit: +$('n-limit').value
   };
-  const key = JSON.stringify(params);
+  // 快取 key 不含 limit:批量只影響一次抽幾個,候選池不變,故改批量仍延續不重複
+  const { limit, ...ident } = params;
+  const key = JSON.stringify(ident);
   if (key !== _seen.key) _seen = { key, names: [] };
   params.exclude = _seen.names.join(',');
   const r = await api('suggest_names', params);
