@@ -226,10 +226,8 @@ const API_HTTP = {
     headers: {'Content-Type': 'application/json'}, body: JSON.stringify(p) }),
   zodiac_rules: p => fetch(`/api/rules?year=${p.year}`),
   suggest_chars: p => fetch(`/api/suggest-chars?year=${p.year}&gender=${p.gender || ''}`),
-  suggest_names: p => fetch(`/api/suggest-names?surname=${encodeURIComponent(p.surname)}` +
-    `&year=${p.year}&gender=${p.gender || ''}&length=${p.length}` +
-    `&rarity=${p.rarity}&luck=${p.luck}&max_strokes=${p.max_strokes || 0}` +
-    `&like=${encodeURIComponent(p.like || '')}&dislike=${encodeURIComponent(p.dislike || '')}`),
+  suggest_names: p => fetch('/api/suggest-names', { method: 'POST',
+    headers: {'Content-Type': 'application/json'}, body: JSON.stringify(p) }),
 };
 
 async function api(func, params) {
@@ -357,9 +355,14 @@ async function suggest() {
       ${table(d.good)}
     </div>`;
 }
+// 換一批不重複:記住已出現過的名字,同條件下抽樣時避開;條件改變即重設
+let _seen = { key: '', names: [] };
+
+function resetSeen() { _seen = { key: '', names: [] }; suggestNames(); }
+
 async function suggestNames() {
   $('n-err').textContent = ''; $('n-result').innerHTML = '<div class="card muted">計算中…</div>';
-  const r = await api('suggest_names', {
+  const params = {
     surname: $('n-surname').value.trim(),
     year: +$('n-year').value,
     gender: $('n-gender').value,
@@ -369,9 +372,16 @@ async function suggestNames() {
     max_strokes: +$('n-maxstrokes').value || 0,
     like: $('n-like').value,
     dislike: $('n-dislike').value
-  });
+  };
+  const key = JSON.stringify(params);
+  if (key !== _seen.key) _seen = { key, names: [] };
+  params.exclude = _seen.names.join(',');
+  const r = await api('suggest_names', params);
   if (!r.ok) { $('n-err').textContent = r.detail; $('n-result').innerHTML = ''; return; }
   const d = r.data;
+  if (d.seen_reset) _seen.names = [];
+  for (const n of d.names)
+    if (!_seen.names.includes(n.given)) _seen.names.push(n.given);
 
   let warn = '';
   if (d.missing_like && d.missing_like.length)
@@ -388,6 +398,9 @@ async function suggestNames() {
     if ((d.disliked || []).length) parts.push(`已排除 ${d.disliked.length} 字:${d.disliked.map(esc).join('、')}`);
     warn += `<div class="card" style="border-color:#cfe3cf;background:#f2f9f2">✓ ${parts.join('<br>✓ ')}</div>`;
   }
+  if (d.seen_reset)
+    warn += `<div class="card" style="border-color:#cfe3cf;background:#f2f9f2">
+      🎲 此條件下的名字組合已全部看過一輪,重新開始抽樣。</div>`;
   if (d.luck_relaxed && !d.sancai_warning)
     warn += `<div class="card" style="border-color:#e0b400;background:#fdf8e3">
       ⚠ 此條件下沒有達到所選吉度門檻的組合,已自動放寬顯示較普通的名字。</div>`;
@@ -413,7 +426,9 @@ async function suggestNames() {
     <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px">
       <div class="muted">
         共 ${d.total} 個合格組合(已排除生肖重忌、三才大凶、人/地/總格數理凶),
-        依分數加權隨機抽 ${d.names.length} 個;點擊名字看完整分析,諧音請自己唸唸看。</div>
+        依分數加權隨機抽 ${d.names.length} 個;點擊名字看完整分析,諧音請自己唸唸看。${
+        d.seen_skipped ? `<br>已避開先前出現過的 ${d.seen_skipped} 個名字
+          (<a href="javascript:resetSeen()">重設,允許重複</a>)。` : ''}</div>
       <button onclick="suggestNames()" style="flex-shrink:0;padding:8px 16px;border:1px solid var(--line);
         border-radius:8px;background:#fffdf9;cursor:pointer;font-size:14px">🎲 換一批</button>
     </div>

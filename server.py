@@ -45,7 +45,8 @@ class Handler(BaseHTTPRequestHandler):
                                               luck=int(q.get("luck", 1)),
                                               max_strokes=int(q.get("max_strokes", 0)),
                                               like=q.get("like", ""),
-                                              dislike=q.get("dislike", "")))
+                                              dislike=q.get("dislike", ""),
+                                              exclude=q.get("exclude", "")))
             except ValueError as e:
                 self._json({"detail": str(e)}, 400)
         elif u.path == "/api/rules":
@@ -65,6 +66,21 @@ class Handler(BaseHTTPRequestHandler):
                 self._json(core.analyze(req.get("surname", ""), req.get("given", ""),
                                         int(req.get("year", 2026)),
                                         bool(req.get("use_modern", False))))
+            except ValueError as e:
+                self._json({"detail": str(e)}, 400)
+        elif u.path == "/api/suggest-names":
+            # 換一批的已看名單(exclude)可能很長,故也支援 POST
+            try:
+                self._json(core.suggest_names(req.get("surname", ""),
+                                              int(req.get("year", 2026)),
+                                              req.get("gender", ""),
+                                              int(req.get("length", 2)),
+                                              rarity=int(req.get("rarity", 1)),
+                                              luck=int(req.get("luck", 1)),
+                                              max_strokes=int(req.get("max_strokes", 0)),
+                                              like=req.get("like", ""),
+                                              dislike=req.get("dislike", ""),
+                                              exclude=req.get("exclude", "")))
             except ValueError as e:
                 self._json({"detail": str(e)}, 400)
         else:

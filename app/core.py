@@ -3,6 +3,7 @@
 import json
 import os
 import random
+import re
 import sqlite3
 import unicodedata
 
@@ -354,7 +355,7 @@ def _parse_chars(text: str, max_chars=4):
 def suggest_names(surname: str, year: int = 2026, gender: str = "",
                   length: int = 2, limit: int = 40,
                   rarity: int = 1, luck: int = 1, max_strokes: int = 0,
-                  like: str = "", dislike: str = ""):
+                  like: str = "", dislike: str = "", exclude: str = ""):
     """組合推薦完整名字:生肖合格字 × 音韻(平仄)評分 × 三才五格過濾。
 
     rarity 冷門度:0 常見優先 / 1 均衡 / 2 偏冷門(調整冷門字的抽樣權重)
@@ -363,7 +364,9 @@ def suggest_names(surname: str, year: int = 2026, gender: str = "",
     max_strokes 全名總筆畫上限(現代筆畫、實際書寫),0 = 不限
     like 想用的字(如「程,睿」):推薦的名字必含其中至少一字;
          指定字不受性別/生肖忌用剔除,但有忌用會附警語(最多取 4 字)
-    dislike 不想用的字:推薦一律排除(最多 200 字,超過報錯);與 like 衝突時報錯"""
+    dislike 不想用的字:推薦一律排除(最多 200 字,超過報錯);與 like 衝突時報錯
+    exclude 已看過的名字(逗號分隔,不含姓,如「駿宇,睿安」):抽樣時避開,
+            供「換一批」不重複出現;全部看完時自動重設並回報 seen_reset"""
     surname = surname.strip()
     if not 1 <= len(surname) <= 2:
         raise ValueError("僅支援一~二字姓")
@@ -488,11 +491,19 @@ def suggest_names(surname: str, year: int = 2026, gender: str = "",
                                      -x["rank"], x["zong"]))
         all_bad = bool(filtered) and all(
             n["sancai"]["rating"] == "凶" for n in filtered)
-        picked = _weighted_sample(filtered, limit,
+        # 換一批不重複:排除前端快取中已看過的名字;全部看完則重設
+        seen = {s for s in re.split(r"[,,、\s]+", exclude) if s}
+        avail = [n for n in filtered if n["given"] not in seen] if seen else filtered
+        seen_reset = bool(seen) and not avail
+        if seen_reset:
+            avail = filtered
+        picked = _weighted_sample(avail, limit,
                                   liked={e["char"] for e in liked})
         return {"surname": surname, "year": year, "zodiac": zo,
                 "length": length, "total": len(filtered),
                 "sancai_warning": all_bad,
+                "seen_reset": seen_reset,
+                "seen_skipped": 0 if seen_reset else len(filtered) - len(avail),
                 "luck_relaxed": want < luck,
                 "liked": [e["char"] for e in liked],
                 "disliked": banned_list,

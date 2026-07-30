@@ -37,11 +37,36 @@ def suggest_chars(year: int = 2026, gender: str = ""):
 @app.get("/api/suggest-names")
 def suggest_names(surname: str, year: int = 2026, gender: str = "", length: int = 2,
                   rarity: int = 1, luck: int = 1, max_strokes: int = 0,
-                  like: str = "", dislike: str = ""):
+                  like: str = "", dislike: str = "", exclude: str = ""):
     try:
         return core.suggest_names(surname, year, gender, length,
                                   rarity=rarity, luck=luck, max_strokes=max_strokes,
-                                  like=like, dislike=dislike)
+                                  like=like, dislike=dislike, exclude=exclude)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+class SuggestNamesReq(BaseModel):
+    surname: str
+    year: int = 2026
+    gender: str = ""
+    length: int = 2
+    rarity: int = 1
+    luck: int = 1
+    max_strokes: int = 0
+    like: str = ""
+    dislike: str = ""
+    exclude: str = ""  # 已看過的名字(換一批不重複),可能很長故走 POST
+
+
+@app.post("/api/suggest-names")
+def suggest_names_post(req: SuggestNamesReq):
+    try:
+        return core.suggest_names(req.surname, req.year, req.gender, req.length,
+                                  rarity=req.rarity, luck=req.luck,
+                                  max_strokes=req.max_strokes,
+                                  like=req.like, dislike=req.dislike,
+                                  exclude=req.exclude)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
