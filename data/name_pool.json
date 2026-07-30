@@ -2355,6 +2355,666 @@
    "c": "齊",
    "gender": "m",
    "gloss": "見賢思齊"
+  },
+  {
+   "c": "弘",
+   "gender": "m",
+   "gloss": "弘大寬廣"
+  },
+  {
+   "c": "冠",
+   "gender": "m",
+   "gloss": "冠絕群倫"
+  },
+  {
+   "c": "卓",
+   "gender": "m",
+   "gloss": "卓爾不群"
+  },
+  {
+   "c": "恆",
+   "gender": "m",
+   "gloss": "恆久不變"
+  },
+  {
+   "c": "慶",
+   "gender": "m",
+   "gloss": "普天同慶"
+  },
+  {
+   "c": "憲",
+   "gender": "m",
+   "gloss": "憲章典範"
+  },
+  {
+   "c": "揚",
+   "gender": "m",
+   "gloss": "揚名立萬"
+  },
+  {
+   "c": "敦",
+   "gender": "m",
+   "gloss": "敦厚篤實"
+  },
+  {
+   "c": "晟",
+   "gender": "m",
+   "gloss": "光明熾盛"
+  },
+  {
+   "c": "曜",
+   "gender": "m",
+   "gloss": "日曜光耀"
+  },
+  {
+   "c": "楠",
+   "gender": "m",
+   "gloss": "楠木堅貞"
+  },
+  {
+   "c": "榛",
+   "gender": "m",
+   "gloss": "榛木成林"
+  },
+  {
+   "c": "淵",
+   "gender": "m",
+   "gloss": "淵博深遠"
+  },
+  {
+   "c": "淳",
+   "gender": "m",
+   "gloss": "淳厚質樸"
+  },
+  {
+   "c": "湛",
+   "gender": "m",
+   "gloss": "湛然精深"
+  },
+  {
+   "c": "濤",
+   "gender": "m",
+   "gloss": "波濤壯闊"
+  },
+  {
+   "c": "瑋",
+   "gender": "m",
+   "gloss": "珍奇瑋寶"
+  },
+  {
+   "c": "璟",
+   "gender": "m",
+   "gloss": "玉有光彩"
+  },
+  {
+   "c": "磊",
+   "gender": "m",
+   "gloss": "光明磊落"
+  },
+  {
+   "c": "耀",
+   "gender": "m",
+   "gloss": "光耀四方"
+  },
+  {
+   "c": "諾",
+   "gender": "m",
+   "gloss": "一諾千金"
+  },
+  {
+   "c": "逸",
+   "gender": "m",
+   "gloss": "超逸不群"
+  },
+  {
+   "c": "鑫",
+   "gender": "m",
+   "gloss": "金玉滿堂"
+  },
+  {
+   "c": "驥",
+   "gender": "m",
+   "gloss": "千里之驥"
+  },
+  {
+   "c": "麒",
+   "gender": "m",
+   "gloss": "麒麟祥瑞"
+  },
+  {
+   "c": "龍",
+   "gender": "m",
+   "gloss": "龍騰四海"
+  },
+  {
+   "c": "堯",
+   "gender": "m",
+   "gloss": "堯天舜日"
+  },
+  {
+   "c": "尚",
+   "gender": "m",
+   "gloss": "崇尚高潔"
+  },
+  {
+   "c": "捷",
+   "gender": "m",
+   "gloss": "敏捷順利"
+  },
+  {
+   "c": "擎",
+   "gender": "m",
+   "gloss": "擎天之柱"
+  },
+  {
+   "c": "昀",
+   "gender": "m",
+   "gloss": "日光和煦"
+  },
+  {
+   "c": "昭",
+   "gender": "m",
+   "gloss": "昭明顯著"
+  },
+  {
+   "c": "曙",
+   "gender": "m",
+   "gloss": "曙光初現"
+  },
+  {
+   "c": "望",
+   "gender": "m",
+   "gloss": "眾望所歸"
+  },
+  {
+   "c": "榕",
+   "gender": "m",
+   "gloss": "榕蔭廣被"
+  },
+  {
+   "c": "湘",
+   "gender": "m",
+   "gloss": "湘江清遠"
+  },
+  {
+   "c": "熠",
+   "gender": "m",
+   "gloss": "熠熠生輝"
+  },
+  {
+   "c": "琛",
+   "gender": "m",
+   "gloss": "珍寶奇琛"
+  },
+  {
+   "c": "碩",
+   "gender": "m",
+   "gloss": "碩學宏才"
+  },
+  {
+   "c": "祺",
+   "gender": "m",
+   "gloss": "吉祥安祺"
+  },
+  {
+   "c": "譽",
+   "gender": "m",
+   "gloss": "聲譽卓著"
+  },
+  {
+   "c": "遙",
+   "gender": "m",
+   "gloss": "逍遙自在"
+  },
+  {
+   "c": "隆",
+   "gender": "m",
+   "gloss": "興隆昌盛"
+  },
+  {
+   "c": "雍",
+   "gender": "m",
+   "gloss": "雍容大度"
+  },
+  {
+   "c": "馳",
+   "gender": "m",
+   "gloss": "馳騁千里"
+  },
+  {
+   "c": "駒",
+   "gender": "m",
+   "gloss": "千里良駒"
+  },
+  {
+   "c": "騏",
+   "gender": "m",
+   "gloss": "騏驥並馳"
+  },
+  {
+   "c": "鶴",
+   "gender": "m",
+   "gloss": "松鶴延年"
+  },
+  {
+   "c": "黎",
+   "gender": "m",
+   "gloss": "黎明破曉"
+  },
+  {
+   "c": "鼎",
+   "gender": "m",
+   "gloss": "鼎盛昌隆"
+  },
+  {
+   "c": "胤",
+   "gender": "m",
+   "gloss": "綿延後嗣"
+  },
+  {
+   "c": "蔚",
+   "gender": "m",
+   "gloss": "蔚然成風"
+  },
+  {
+   "c": "釗",
+   "gender": "m",
+   "gloss": "勉力自強"
+  },
+  {
+   "c": "闊",
+   "gender": "m",
+   "gloss": "心胸開闊"
+  },
+  {
+   "c": "允",
+   "gender": "m",
+   "gloss": "誠信允諾"
+  },
+  {
+   "c": "御",
+   "gender": "m",
+   "gloss": "御風而行"
+  },
+  {
+   "c": "崧",
+   "gender": "m",
+   "gloss": "崧高峻極"
+  },
+  {
+   "c": "淙",
+   "gender": "m",
+   "gloss": "淙淙流泉"
+  },
+  {
+   "c": "熹",
+   "gender": "m",
+   "gloss": "晨光熹微"
+  },
+  {
+   "c": "玨",
+   "gender": "m",
+   "gloss": "雙玉合璧"
+  },
+  {
+   "c": "琮",
+   "gender": "m",
+   "gloss": "玉琮貴重"
+  },
+  {
+   "c": "璨",
+   "gender": "m",
+   "gloss": "璀璨奪目"
+  },
+  {
+   "c": "磐",
+   "gender": "m",
+   "gloss": "穩如磐石"
+  },
+  {
+   "c": "筠",
+   "gender": "m",
+   "gloss": "筠竹清節"
+  },
+  {
+   "c": "翀",
+   "gender": "m",
+   "gloss": "一飛沖天"
+  },
+  {
+   "c": "顯",
+   "gender": "m",
+   "gloss": "顯達榮明"
+  },
+  {
+   "c": "舜",
+   "gender": "m",
+   "gloss": "堯舜之德"
+  },
+  {
+   "c": "勉",
+   "gender": "m",
+   "gloss": "勤勉不懈"
+  },
+  {
+   "c": "彧",
+   "gender": "m",
+   "gloss": "彧彧文采"
+  },
+  {
+   "c": "沅",
+   "gender": "m",
+   "gloss": "沅水清澄"
+  },
+  {
+   "c": "峻",
+   "gender": "m",
+   "gloss": "高峻挺拔"
+  },
+  {
+   "c": "禕",
+   "gender": "m",
+   "gloss": "美好珍禕"
+  },
+  {
+   "c": "稷",
+   "gender": "m",
+   "gloss": "社稷棟樑"
+  },
+  {
+   "c": "賀",
+   "gender": "m",
+   "gloss": "嘉慶可賀"
+  },
+  {
+   "c": "鎧",
+   "gender": "m",
+   "gloss": "鎧甲堅實"
+  },
+  {
+   "c": "霄",
+   "gender": "m",
+   "gloss": "凌霄壯志"
+  },
+  {
+   "c": "韜",
+   "gender": "m",
+   "gloss": "文韜武略"
+  },
+  {
+   "c": "願",
+   "gender": "m",
+   "gloss": "心願得成"
+  },
+  {
+   "c": "恕",
+   "gender": "m",
+   "gloss": "寬厚仁恕"
+  },
+  {
+   "c": "悌",
+   "gender": "m",
+   "gloss": "孝悌友愛"
+  },
+  {
+   "c": "惟",
+   "gender": "m",
+   "gloss": "思惟明辨"
+  },
+  {
+   "c": "慕",
+   "gender": "m",
+   "gloss": "心慕高賢"
+  },
+  {
+   "c": "挺",
+   "gender": "m",
+   "gloss": "挺拔端正"
+  },
+  {
+   "c": "摯",
+   "gender": "m",
+   "gloss": "真摯誠懇"
+  },
+  {
+   "c": "斐",
+   "gender": "m",
+   "gloss": "文采斐然"
+  },
+  {
+   "c": "暄",
+   "gender": "m",
+   "gloss": "暄和溫暖"
+  },
+  {
+   "c": "曄",
+   "gender": "m",
+   "gloss": "光華曄曄"
+  },
+  {
+   "c": "棣",
+   "gender": "m",
+   "gloss": "賢棣同心"
+  },
+  {
+   "c": "樟",
+   "gender": "m",
+   "gloss": "樟木芬芳"
+  },
+  {
+   "c": "樑",
+   "gender": "m",
+   "gloss": "棟樑之材"
+  },
+  {
+   "c": "姝",
+   "gender": "f",
+   "gloss": "麗質姝美"
+  },
+  {
+   "c": "嫣",
+   "gender": "f",
+   "gloss": "嫣然巧笑"
+  },
+  {
+   "c": "岑",
+   "gender": "f",
+   "gloss": "岑巒秀出"
+  },
+  {
+   "c": "帆",
+   "gender": "f",
+   "gloss": "一帆風順"
+  },
+  {
+   "c": "恬",
+   "gender": "f",
+   "gloss": "恬靜安然"
+  },
+  {
+   "c": "悠",
+   "gender": "f",
+   "gloss": "悠然自得"
+  },
+  {
+   "c": "懿",
+   "gender": "f",
+   "gloss": "懿德芳範"
+  },
+  {
+   "c": "晶",
+   "gender": "f",
+   "gloss": "晶瑩剔透"
+  },
+  {
+   "c": "曦",
+   "gender": "f",
+   "gloss": "晨曦初露"
+  },
+  {
+   "c": "朵",
+   "gender": "f",
+   "gloss": "花朵嬌妍"
+  },
+  {
+   "c": "沁",
+   "gender": "f",
+   "gloss": "沁人心脾"
+  },
+  {
+   "c": "涓",
+   "gender": "f",
+   "gloss": "涓涓細流"
+  },
+  {
+   "c": "溪",
+   "gender": "f",
+   "gloss": "清溪潺潺"
+  },
+  {
+   "c": "玥",
+   "gender": "f",
+   "gloss": "神珠美玥"
+  },
+  {
+   "c": "琬",
+   "gender": "f",
+   "gloss": "琬琰美玉"
+  },
+  {
+   "c": "璐",
+   "gender": "f",
+   "gloss": "璐玉溫潤"
+  },
+  {
+   "c": "甜",
+   "gender": "f",
+   "gloss": "甜美可親"
+  },
+  {
+   "c": "皎",
+   "gender": "f",
+   "gloss": "皎潔明淨"
+  },
+  {
+   "c": "盈",
+   "gender": "f",
+   "gloss": "盈滿豐足"
+  },
+  {
+   "c": "碧",
+   "gender": "f",
+   "gloss": "碧玉清瑩"
+  },
+  {
+   "c": "禧",
+   "gender": "f",
+   "gloss": "福禧綿長"
+  },
+  {
+   "c": "筑",
+   "gender": "f",
+   "gloss": "筑韻清雅"
+  },
+  {
+   "c": "緣",
+   "gender": "f",
+   "gloss": "良緣善聚"
+  },
+  {
+   "c": "翠",
+   "gender": "f",
+   "gloss": "翠色欲流"
+  },
+  {
+   "c": "聆",
+   "gender": "f",
+   "gloss": "聆音察理"
+  },
+  {
+   "c": "芝",
+   "gender": "f",
+   "gloss": "靈芝瑞草"
+  },
+  {
+   "c": "芯",
+   "gender": "f",
+   "gloss": "香草之心"
+  },
+  {
+   "c": "茵",
+   "gender": "f",
+   "gloss": "綠茵如織"
+  },
+  {
+   "c": "菡",
+   "gender": "f",
+   "gloss": "菡萏芙蓉"
+  },
+  {
+   "c": "蕊",
+   "gender": "f",
+   "gloss": "花蕊初綻"
+  },
+  {
+   "c": "雯",
+   "gender": "f",
+   "gloss": "雲雯成章"
+  },
+  {
+   "c": "霓",
+   "gender": "f",
+   "gloss": "霓虹絢麗"
+  },
+  {
+   "c": "靈",
+   "gender": "f",
+   "gloss": "靈秀慧敏"
+  },
+  {
+   "c": "雁",
+   "gender": "f",
+   "gloss": "鴻雁高飛"
+  },
+  {
+   "c": "郁",
+   "gender": "f",
+   "gloss": "馥郁芬芳"
+  },
+  {
+   "c": "弦",
+   "gender": "f",
+   "gloss": "弦歌雅韻"
+  },
+  {
+   "c": "嬋",
+   "gender": "f",
+   "gloss": "嬋娟美好"
+  },
+  {
+   "c": "藹",
+   "gender": "f",
+   "gloss": "和藹可親"
+  },
+  {
+   "c": "瑗",
+   "gender": "f",
+   "gloss": "瑗玉環美"
+  },
+  {
+   "c": "融",
+   "gender": "n",
+   "gloss": "融洽和睦"
+  },
+  {
+   "c": "諧",
+   "gender": "n",
+   "gloss": "和諧安順"
+  },
+  {
+   "c": "澈",
+   "gender": "n",
+   "gloss": "清澈明淨"
   }
  ]
 }

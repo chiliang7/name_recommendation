@@ -59,7 +59,7 @@ static/index.html      前端(單頁)
 data/build_db.py       建庫腳本(Unihan + IDS → SQLite)
 data/shuli_81.json     81 數理吉凶表
 data/zodiac_extra.json 12 生肖傳統喜忌字根
-data/name_pool.json    精選命名字庫(472 字,含性別與寓意)
+data/name_pool.json    精選命名字庫(603 條、585 字,含性別與寓意)
 data/english_names.json 拼音/字義 → 英文名對照
 data/overrides.json    康熙筆畫覆寫(數字、王=4…)
 db/naming.sqlite3      字庫(建庫產物)
