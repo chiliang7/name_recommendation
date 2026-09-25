@@ -9,6 +9,7 @@ import sqlite3
 import unicodedata
 
 from . import wuge, zodiac
+from .bazi import analyze_bazi
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_PATH = os.path.join(ROOT, "db", "naming.sqlite3")

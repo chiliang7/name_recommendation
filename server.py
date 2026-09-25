@@ -62,7 +62,16 @@ class Handler(BaseHTTPRequestHandler):
             req = json.loads(self.rfile.read(length) or b"{}")
         except json.JSONDecodeError:
             return self._json({"detail": "invalid JSON"}, 400)
-        if u.path == "/api/analyze":
+        if u.path == "/api/bazi":
+            try:
+                if not isinstance(req, dict):
+                    raise ValueError("請提供 JSON 物件。")
+                self._json(core.analyze_bazi(req.get("birth_date"), req.get("birth_time"),
+                                             req.get("timezone", "UTC+08:00"),
+                                             req.get("day_boundary", "midnight")))
+            except ValueError as e:
+                self._json({"detail": str(e)}, 400)
+        elif u.path == "/api/analyze":
             try:
                 self._json(core.analyze(req.get("surname", ""), req.get("given", ""),
                                         int(req.get("year", 2026)),

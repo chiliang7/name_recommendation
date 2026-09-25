@@ -24,7 +24,7 @@
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px;
           padding: 18px; margin-bottom: 16px; }
   label { font-size: 13px; color: var(--muted); display: block; margin-bottom: 4px; }
-  input[type=text], input[type=number], select {
+  input[type=text], input[type=number], input[type=date], input[type=time], select {
     width: 100%; padding: 10px; font-size: 16px; border: 1px solid var(--line);
     border-radius: 8px; background: #fffdf9; }
   .row { display: flex; gap: 12px; flex-wrap: wrap; }
@@ -60,24 +60,57 @@
          font-size: 12px; background: #eef4fb; color: #2a5d8f; }
   .muted { color: var(--muted); font-size: 13px; }
   footer { text-align: center; color: var(--muted); font-size: 12px; padding: 20px; }
+  .pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .pillars .g-num { margin: 10px 0; color: var(--accent); }
+  .bazi-note { line-height: 1.7; font-size: 14px; }
+  .bazi-warning { background: #fff8e8; border-color: #e7d3a2; }
+  .element-row { display: flex; align-items: center; gap: 12px; margin: 12px 0; }
+  .element-row meter { flex: 1; height: 18px; }
+  button:disabled { opacity: .55; cursor: wait; }
+  @media (max-width: 520px) {
+    .tabs { flex-wrap: wrap; }
+    .tab { flex-basis: 40%; }
+    .pillars { grid-template-columns: repeat(2, 1fr); }
+  }
 </style>
 </head>
 <body>
 <header>
   <h1>寶寶取名助手</h1>
-  <p>三才五格 × 生肖字根 × 康熙筆畫 × 英文名推薦</p>
+  <p>八字分析 × 三才五格 × 生肖字根 × 名字推薦</p>
 </header>
 <div class="wrap">
 
   <div class="tabs">
-    <div class="tab active" data-tab="analyze">名字分析</div>
+    <button type="button" class="tab active" data-tab="bazi">八字分析</button>
+    <div class="tab" data-tab="analyze">名字分析</div>
     <div class="tab" data-tab="suggest">生肖選字</div>
     <div class="tab" data-tab="names">名字推薦</div>
   </div>
   <div id="py-status" class="card" style="display:none;background:#fdf8e3;border-color:#e0b400"></div>
 
+  <section id="tab-bazi">
+    <form class="card" id="bazi-form">
+      <h2 style="margin-top:0">先了解出生八字，再思考取名方向</h2>
+      <p class="bazi-note">輸入西元出生日期與時間，查看四柱、日主及五行分布。時辰不詳也可以先看可確定的部分。</p>
+      <div class="row">
+        <div><label for="b-date">出生日期（西元）</label><input type="date" id="b-date" min="1900-01-01" max="2100-12-31" required></div>
+        <div><label for="b-time">出生時間（24 小時制）</label><input type="time" id="b-time" required></div>
+      </div>
+      <label style="margin:12px 0"><input type="checkbox" id="b-unknown"> 不知道出生時間</label>
+      <div class="row">
+        <div><label for="b-zone">時間基準</label><select id="b-zone"><option value="UTC+08:00">UTC+8 標準時（台灣現行時間）</option></select></div>
+        <div><label for="b-boundary">日柱換日規則</label><select id="b-boundary"><option value="midnight">午夜 00:00 換日</option><option value="zi">子初 23:00 換日</option></select></div>
+      </div>
+      <p class="muted">目前支援 1900–2100 年。海外出生、歷史夏令時間需先確認時間基準；本版未校正出生地真太陽時。</p>
+      <button class="go" id="b-submit" type="submit">分析出生八字</button>
+      <div class="err" id="b-err" role="alert"></div>
+    </form>
+    <div id="b-result" aria-live="polite"></div>
+  </section>
+
   <!-- 分析 -->
-  <section id="tab-analyze">
+  <section id="tab-analyze" style="display:none">
     <div class="card">
       <div class="row">
         <div><label>姓氏</label><input type="text" id="surname" maxlength="2" placeholder="例:陳"></div>
@@ -173,7 +206,7 @@ const $ = id => document.getElementById(id);
 document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
   document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
   t.classList.add('active');
-  for (const name of ['analyze', 'suggest', 'names'])
+  for (const name of ['bazi', 'analyze', 'suggest', 'names'])
     $('tab-' + name).style.display = t.dataset.tab === name ? '' : 'none';
 });
 
@@ -211,7 +244,11 @@ async function _initPy() {
   py.FS.mkdirTree('/home/pyodide/app');
   py.FS.mkdirTree('/home/pyodide/data');
   py.FS.mkdirTree('/home/pyodide/db');
-  const files = ['app/__init__.py', 'app/wuge.py', 'app/zodiac.py', 'app/core.py',
+  py.FS.mkdirTree('/home/pyodide/vendor');
+  const vendorRes = await fetch('vendor/lunar_python-1.4.8.zip', { cache: 'no-cache' });
+  if (!vendorRes.ok) throw new Error('缺少八字曆法套件');
+  py.FS.writeFile('/home/pyodide/vendor/lunar_python-1.4.8.zip', new Uint8Array(await vendorRes.arrayBuffer()));
+  const files = ['app/__init__.py', 'app/wuge.py', 'app/zodiac.py', 'app/core.py', 'app/bazi.py',
                  'data/shuli_81.json', 'data/zodiac_extra.json',
                  'data/name_pool.json', 'data/english_names.json'];
   // cache:'no-cache' 走 ETag 驗證:沒更新回 304 免重下載,有更新立即生效
@@ -230,6 +267,8 @@ async function _initPy() {
 }
 
 const API_HTTP = {
+  analyze_bazi: p => fetch('/api/bazi', { method: 'POST',
+    headers: {'Content-Type': 'application/json'}, body: JSON.stringify(p) }),
   analyze: p => fetch('/api/analyze', { method: 'POST',
     headers: {'Content-Type': 'application/json'}, body: JSON.stringify(p) }),
   zodiac_rules: p => fetch(`/api/rules?year=${p.year}`),
@@ -256,6 +295,54 @@ except ValueError as _e:
     _res = {"ok": False, "detail": str(_e)}
 json.dumps(_res, ensure_ascii=False)`);
   return JSON.parse(out);
+}
+
+$('b-unknown').onchange = () => {
+  $('b-time').disabled = $('b-unknown').checked;
+  $('b-time').required = !$('b-unknown').checked;
+};
+$('bazi-form').onsubmit = event => { event.preventDefault(); analyzeBazi(); };
+// Any edit clears the previous chart so it cannot be mistaken for the new input.
+$('bazi-form').addEventListener('input', () => {
+  $('b-result').innerHTML = ''; $('b-err').textContent = '';
+  baziRequest++;
+});
+let baziRequest = 0;
+async function analyzeBazi() {
+  const request = ++baziRequest;
+  $('b-err').textContent = '';
+  $('b-result').innerHTML = '<div class="card muted">正在排盤…</div>';
+  $('b-submit').disabled = true;
+  try {
+    const r = await api('analyze_bazi', {
+      birth_date: $('b-date').value,
+      birth_time: $('b-unknown').checked ? null : $('b-time').value,
+      timezone: $('b-zone').value, day_boundary: $('b-boundary').value
+    });
+    if (request !== baziRequest) return;
+    if (!r.ok) throw new Error(r.detail);
+    const d = r.data, dm = d.day_master;
+    let html = `<div class="card"><div class="muted">${esc(d.birth_date)} ${esc(d.birth_time || '時辰不詳')} · UTC+8 · ${d.day_boundary === 'zi' ? '23:00' : '00:00'} 換日</div>
+      <h3>${d.complete ? '四柱八字' : '部分命盤 · 時辰待補'}</h3><div class="pillars">`;
+    html += d.pillars.map(p => `<div class="grid-cell"><div class="g-name">${esc(p.label)}</div>
+      <div class="g-num">${esc(p.ganzhi || '待確認')}</div>
+      <div class="g-wx">${p.elements.map(esc).join(' · ')}</div>
+      <p class="muted">${p.ganzhi ? '藏干：' + p.hidden_stems.map(h => esc(h.stem + '（' + h.element + '）')).join('、') : p.alternatives.map(esc).join('／') || '請補出生時間'}</p></div>`).join('');
+    html += `</div><p class="bazi-note">${dm ? `日主：<b>${esc(dm.stem)}（${esc(dm.polarity + dm.element)}）</b>，即日柱天干，是傳統八字分析的參照中心。` : '日主尚待確認，請先補上出生時間。'}</p>
+      <p class="muted">${esc(d.method)}</p></div>`;
+    if (d.warnings.length) html += `<div class="card bazi-warning">${d.warnings.map(w => `<p class="bazi-note">${esc(w)}</p>`).join('')}</div>`;
+    html += `<div class="card"><h3>五行分布${d.complete ? '' : '（部分）'}</h3>
+      <p class="muted">${esc(d.count_method)}本次共計 ${d.counted_characters} 個已確定干支字。</p>`;
+    html += Object.entries(d.element_counts).map(([e, count]) => `<div class="element-row"><b>${esc(e)}</b><meter min="0" max="8" value="${count}" aria-label="${esc(e)} ${count} 個">${count}/8</meter><span>${count} 個</span><small class="muted">藏干 ${d.hidden_element_counts[e]} 次</small></div>`).join('');
+    html += `<p class="bazi-note">已確定干支表層未出現：<b>${esc(d.visible_absent.join('、') || '無')}</b><br>連同藏干仍未出現：${esc(d.absent_including_hidden.join('、') || '無')}</p></div>
+      <div class="card"><h3>接下來的取名方向</h3><p class="bazi-note">${esc(d.naming.summary)}</p>
+      <p class="bazi-note">${esc(d.naming.next_step)}</p>
+      <details><summary>五行字義意象參考（不是喜用神建議）</summary><ul class="plain">${d.naming.directions.map(x => `<li>${esc(x.element)}：${esc(x.imagery)}</li>`).join('')}</ul></details>
+      <p class="muted">${esc(d.disclaimer)}</p></div>`;
+    $('b-result').innerHTML = html;
+  } catch (e) {
+    if (request === baziRequest) { $('b-err').textContent = e.message || '分析失敗，請稍後重試。'; $('b-result').innerHTML = ''; }
+  } finally { $('b-submit').disabled = false; }
 }
 
 async function analyze() {

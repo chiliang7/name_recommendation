@@ -25,6 +25,33 @@ uvicorn app.main:app --reload --port 8000
 
 ## 功能
 
+**八字基礎分析**：新增「八字分析」頁籤，輸入西元生日與出生時間，顯示年／月／日／時四柱、日主陰陽五行、各柱藏干，以及表層五行個數和藏干出現次數。支援時辰不詳，僅呈現可確定的柱；交節或換日當天的歧義會列出候選值。先建立排盤基礎，尚未自動判定格局、旺衰、喜用神，也尚未依八字調整名字推薦排名。
+
+### 八字時間與解讀規則
+
+- 支援 **1900–2100 年的西元日期、UTC+08:00 標準時間**。海外時區、歷史夏令時間、出生地真太陽時尚未支援，使用者需先確認輸入的時間基準。
+- 年柱以**立春交節時刻**換年，月柱以十二節交節時刻換月，不以西元元旦或農曆初一為界。
+- 可選 00:00 換日（預設，lunar-python sect 2）或 23:00 子初換日（sect 1）。時柱遵循套件的晚子時規則：23:00 時干按次日計算；sect 2 的日柱仍屬當日。
+- 未提供時辰時，不拿中午或午夜假裝出生時間；僅保留當日兩端一致的年、月、日柱，不產生時柱。跨節氣或選用子初換日時會提示不確定性。
+- 天干、地支本氣各計一次；藏干另列、不加權。**五行個數不代表旺衰，未出現不等於應補的喜用神**。介面提供五行字義意象參考，供後續結合命理判讀與命名條件。
+- 原有生肖選字仍使用原本的出生年規則；本版八字是獨立分析，不會悄悄改動既有推薦條件。
+- 曆法使用附帶的 [lunar-python 1.4.8](https://pypi.org/project/lunar-python/1.4.8/)（MIT），本機免安裝套件；Pages 下載同一份 ZIP 並透過 Pyodide 執行。版本與來源見 `vendor/README.md`。
+
+API（stdlib / FastAPI 共用）：
+
+```http
+POST /api/bazi
+Content-Type: application/json
+
+{"birth_date":"2026-09-25","birth_time":"08:30","timezone":"UTC+08:00","day_boundary":"midnight"}
+```
+
+`birth_time` 可省略、為 `null` 或空字串，表示時辰未知。回傳 `pillars`、`day_master`、`element_counts`、`hidden_element_counts`、`warnings` 與 `naming`；未確定柱的 `ganzhi` 為 `null`，`alternatives` 列出年／月／日柱候選。`naming.favorable_elements` 目前固定為 `null`，避免下游誤把缺項當作喜用神。
+
+驗證：`python3 -m unittest discover -s tests -v`。
+
+### 原有命名功能
+
 1. **三才五格**:輸入姓名 → 天/人/地/外/總格數字、五行、81 數理吉凶、三才(依五行生剋推導,例:土金火 → 凶)。
 2. **生肖字根驗證**:依出生年生肖(2026 = 馬)檢查名字每個字的部件——三合/六合字根加分(馬 → 虎、狗、羊),對沖/相害/相刑與傳統忌用字根示警(馬 → 忌鼠、田、雙口…)。
 3. **生肖選字推薦**:從 472 個台灣常用命名字中,剔除含忌用字根者、依生肖契合度排序。
@@ -53,6 +80,7 @@ python3 data/build_db.py
 app/wuge.py            三才五格引擎(五格、五行、81數理、三才生剋評分)
 app/zodiac.py          生肖規則(三合六合沖害刑自動推導 + 傳統喜忌)
 app/core.py            共用邏輯(分析、選字、英文名)
+app/bazi.py            八字排盤、輸入驗證、五行分布與不確定性處理
 app/main.py            FastAPI 後端
 server.py              純標準庫後端(免安裝)
 static/index.html      前端(單頁)
@@ -63,6 +91,8 @@ data/name_pool.json    精選命名字庫(603 條、585 字,含性別與寓意)
 data/english_names.json 拼音/字義 → 英文名對照
 data/overrides.json    康熙筆畫覆寫(數字、王=4…)
 db/naming.sqlite3      字庫(建庫產物)
+vendor/               固定版本曆法套件及 MIT 授權
+tests/                八字與 API 回歸測試
 ```
 
 > 僅供參考,取名開心最重要 ❤️

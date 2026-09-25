@@ -2,6 +2,7 @@
 """FastAPI 後端。啟動:uvicorn app.main:app --reload --port 8000
 (若未安裝 fastapi/uvicorn,可改用 python3 server.py)"""
 import os
+from typing import Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
@@ -19,6 +20,21 @@ class AnalyzeReq(BaseModel):
     given: str
     year: int = 2026
     use_modern: bool = False
+
+
+class BaziReq(BaseModel):
+    birth_date: str
+    birth_time: Optional[str] = None
+    timezone: str = "UTC+08:00"
+    day_boundary: str = "midnight"
+
+
+@app.post("/api/bazi")
+def bazi(req: BaziReq):
+    try:
+        return core.analyze_bazi(req.birth_date, req.birth_time, req.timezone, req.day_boundary)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 
 @app.post("/api/analyze")
