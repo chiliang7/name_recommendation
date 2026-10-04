@@ -1,0 +1,176 @@
+{
+  "鼠": {
+    "favor": [
+      {"roots": ["米", "豆", "禾", "麥", "梁"], "reason": "鼠喜五穀,得食無虞", "level": "major"},
+      {"roots": ["宀", "冖", "口"], "reason": "有洞穴可藏身安居", "level": "major"},
+      {"roots": ["夕"], "reason": "鼠晝伏夜出,得其時", "level": "minor"},
+      {"roots": ["王", "令", "君"], "reason": "鼠居生肖之首,宜稱王", "level": "minor"}
+    ],
+    "avoid": [
+      {"roots": ["日"], "reason": "白日行動易受威脅", "level": "minor"},
+      {"roots": ["火", "灬"], "reason": "子屬水,水火相沖", "level": "minor"},
+      {"roots": ["人", "亻"], "reason": "老鼠見人易受驚擾", "level": "minor"},
+      {"roots": ["蛇", "辶", "廴", "弓"], "reason": "蛇會吞鼠", "level": "minor"}
+    ]
+  },
+  "牛": {
+    "favor": [
+      {"roots": ["艹"], "reason": "牛以草為主食,糧食豐足", "level": "major"},
+      {"roots": ["禾", "豆", "米", "麥"], "reason": "五穀豐足,不愁吃穿", "level": "major"},
+      {"roots": ["宀", "冖"], "reason": "有牛欄可休憩", "level": "major"},
+      {"roots": ["田"], "reason": "牛耕田得其所,盡其本份", "level": "minor"},
+      {"roots": ["氵", "水"], "reason": "牛需水滋養", "level": "minor"}
+    ],
+    "avoid": [
+      {"roots": ["心", "忄", "月", "肉"], "reason": "牛不食肉,看得到吃不到", "level": "major"},
+      {"roots": ["日", "山"], "reason": "烈日下耕作、上山拖行皆辛苦", "level": "minor"},
+      {"roots": ["王", "君", "示"], "reason": "牛做祭祀犧牲品", "level": "major"},
+      {"roots": ["彡", "巾", "衣", "采", "糸"], "reason": "披彩衣者為祭祀犧牲", "level": "minor"},
+      {"roots": ["車"], "reason": "牛拉車勞苦一生", "level": "minor"}
+    ]
+  },
+  "虎": {
+    "favor": [
+      {"roots": ["山", "林", "木"], "reason": "虎為山林之王,得地利", "level": "major"},
+      {"roots": ["王", "君", "令", "大"], "reason": "老虎稱王,掌權得勢", "level": "major"},
+      {"roots": ["心", "忄", "月", "肉"], "reason": "虎為肉食,糧食豐足", "level": "major"},
+      {"roots": ["氵", "水"], "reason": "水能生寅木,亦助威", "level": "minor"},
+      {"roots": ["彡", "巾", "衣", "采"], "reason": "披彩衣顯虎紋之美", "level": "minor"}
+    ],
+    "avoid": [
+      {"roots": ["人", "亻"], "reason": "人虎相處易受傷害", "level": "minor"},
+      {"roots": ["田", "艹"], "reason": "虎落平陽被犬欺", "level": "minor"},
+      {"roots": ["口"], "reason": "虎開口傷人,亦有落入陷阱之意", "level": "minor"},
+      {"roots": ["日", "光"], "reason": "虎行於夜,烈日不利", "level": "minor"}
+    ]
+  },
+  "兔": {
+    "favor": [
+      {"roots": ["艹"], "reason": "兔以草為食,糧食豐足", "level": "major"},
+      {"roots": ["米", "豆", "麥", "禾"], "reason": "五穀雜糧得食", "level": "major"},
+      {"roots": ["宀", "冖", "口"], "reason": "狡兔三窟,有洞穴安身", "level": "major"},
+      {"roots": ["木"], "reason": "兔居林間,自由自在", "level": "minor"},
+      {"roots": ["彡", "衣", "采", "糸"], "reason": "毛色亮麗,增添風采", "level": "minor"}
+    ],
+    "avoid": [
+      {"roots": ["心", "忄", "月", "肉"], "reason": "兔不食肉", "level": "major"},
+      {"roots": ["日"], "reason": "月兔見日,犯太陽", "level": "minor"},
+      {"roots": ["氵", "水"], "reason": "兔子怕水", "level": "minor"},
+      {"roots": ["人", "亻"], "reason": "守株待兔,人捕兔", "level": "minor"}
+    ]
+  },
+  "龍": {
+    "favor": [
+      {"roots": ["氵", "水", "雨"], "reason": "龍得水而騰,如魚得水", "level": "major"},
+      {"roots": ["日", "月"], "reason": "龍飛於天,與日月同輝", "level": "major"},
+      {"roots": ["王", "大", "君", "令"], "reason": "龍為王者,掌權得勢", "level": "major"},
+      {"roots": ["馬", "午"], "reason": "龍馬精神", "level": "minor"}
+    ],
+    "avoid": [
+      {"roots": ["田", "艹"], "reason": "龍困淺灘,降格為蟲", "level": "major"},
+      {"roots": ["宀", "冖"], "reason": "龍不宜洞穴,受困屈身", "level": "minor"},
+      {"roots": ["虫"], "reason": "降格為蛇蟲", "level": "minor"},
+      {"roots": ["山"], "reason": "龍非山中物,與虎相鬥", "level": "minor"}
+    ]
+  },
+  "蛇": {
+    "favor": [
+      {"roots": ["口", "宀", "冖"], "reason": "蛇居洞穴,得安身之所", "level": "major"},
+      {"roots": ["木"], "reason": "蛇上樹,升格之象", "level": "minor"},
+      {"roots": ["心", "忄", "月", "肉"], "reason": "蛇為肉食,糧食豐足", "level": "major"},
+      {"roots": ["彡", "巾", "衣", "采", "糸"], "reason": "蛇披彩衣,升格為龍", "level": "major"}
+    ],
+    "avoid": [
+      {"roots": ["日"], "reason": "蛇怕烈日曝曬", "level": "minor"},
+      {"roots": ["氵", "水"], "reason": "巳屬火,水火相沖", "level": "minor"},
+      {"roots": ["人", "亻"], "reason": "人見蛇易打蛇", "level": "minor"},
+      {"roots": ["艹"], "reason": "打草驚蛇", "level": "minor"}
+    ]
+  },
+  "馬": {
+    "favor": [
+      {"roots": ["艹"], "reason": "馬以草為主食,糧草豐足", "level": "major"},
+      {"roots": ["木"], "reason": "馬悠遊林間,自得其樂", "level": "minor"},
+      {"roots": ["目"], "reason": "馬眼大有神,增其俊美", "level": "minor"},
+      {"roots": ["龍", "辰"], "reason": "龍馬精神,氣勢非凡", "level": "major"},
+      {"roots": ["彡", "巾", "糸", "衣", "采"], "reason": "良馬披彩衣,華麗升格", "level": "major"}
+    ],
+    "avoid": [
+      {"roots": ["田"], "reason": "馬下田耕作,淪為役馬辛苦", "level": "major"},
+      {"roots": ["心", "忄", "月", "肉"], "reason": "馬不食肉", "level": "minor"},
+      {"roots": ["山"], "reason": "馬行山路,奔波勞苦", "level": "minor"},
+      {"roots": ["奇", "其"], "reason": "成「騎」意,馬被人騎", "level": "minor"},
+      {"roots": ["口"], "reason": "兩口成「罵」,口多是非", "level": "minor", "min_count": 2}
+    ]
+  },
+  "羊": {
+    "favor": [
+      {"roots": ["艹"], "reason": "羊以草為食,糧食豐足", "level": "major"},
+      {"roots": ["米", "麥", "豆", "禾"], "reason": "五穀得食", "level": "major"},
+      {"roots": ["木"], "reason": "林間棲息自在", "level": "minor"},
+      {"roots": ["口", "宀", "冖"], "reason": "有羊圈可安身", "level": "major"},
+      {"roots": ["足"], "reason": "羊善跳躍,悠然自得", "level": "minor"}
+    ],
+    "avoid": [
+      {"roots": ["心", "忄", "月", "肉"], "reason": "羊不食肉", "level": "major"},
+      {"roots": ["王", "君", "示", "大"], "reason": "羊做祭祀犧牲品", "level": "major"},
+      {"roots": ["彡", "巾", "衣", "采", "糸"], "reason": "披彩衣為供品", "level": "minor"},
+      {"roots": ["氵", "水"], "reason": "羊怕水,喜乾燥", "level": "minor"}
+    ]
+  },
+  "猴": {
+    "favor": [
+      {"roots": ["木"], "reason": "猴棲樹林,得其所", "level": "major"},
+      {"roots": ["口", "宀", "冖"], "reason": "有洞穴安居", "level": "major"},
+      {"roots": ["人", "亻"], "reason": "猴喜模仿人,升格之象", "level": "minor"},
+      {"roots": ["王", "君", "令"], "reason": "猴王稱王,掌權得勢", "level": "minor"}
+    ],
+    "avoid": [
+      {"roots": ["田", "禾", "米", "麥", "谷"], "reason": "大猴損五穀,浪費不惜福", "level": "major"},
+      {"roots": ["心", "忄", "月", "肉"], "reason": "猴以果實為食,不食肉", "level": "minor"},
+      {"roots": ["山"], "reason": "申為猴又逢山中虎,易相鬥", "level": "minor"}
+    ]
+  },
+  "雞": {
+    "favor": [
+      {"roots": ["米", "豆", "麥", "禾", "梁"], "reason": "雞喜五穀,得食豐足", "level": "major"},
+      {"roots": ["山"], "reason": "金雞上山頭,升格為鳳", "level": "major"},
+      {"roots": ["宀", "冖"], "reason": "有雞舍可棲", "level": "major"},
+      {"roots": ["彡", "采", "糸", "衣"], "reason": "羽毛華麗,增添風采", "level": "major"}
+    ],
+    "avoid": [
+      {"roots": ["心", "忄", "月", "肉"], "reason": "雞不食肉", "level": "minor"},
+      {"roots": ["氵", "水"], "reason": "雞怕水,落湯雞", "level": "minor"},
+      {"roots": ["大", "王", "君"], "reason": "雞長大易被宰殺上供", "level": "minor"},
+      {"roots": ["刀", "皮", "示"], "reason": "與宰殺祭祀相關", "level": "minor"}
+    ]
+  },
+  "狗": {
+    "favor": [
+      {"roots": ["人", "亻"], "reason": "忠犬有主人,受疼愛", "level": "major"},
+      {"roots": ["宀", "冖"], "reason": "家犬有屋,安享清福", "level": "major"},
+      {"roots": ["心", "忄", "月", "肉"], "reason": "狗食肉,糧食豐足", "level": "major"},
+      {"roots": ["彡", "糸", "巾", "衣"], "reason": "披彩衣,受寵之象", "level": "minor"}
+    ],
+    "avoid": [
+      {"roots": ["口"], "reason": "兩口成「哭」、多口成「器」犬吠不寧", "level": "minor", "min_count": 2},
+      {"roots": ["犬", "犭"], "reason": "兩犬相爭,犬多成群鬥", "level": "minor"},
+      {"roots": ["日"], "reason": "天狗食日,狗吠日", "level": "minor"},
+      {"roots": ["禾", "米", "豆", "麥"], "reason": "狗不食五穀", "level": "minor"}
+    ]
+  },
+  "豬": {
+    "favor": [
+      {"roots": ["米", "豆", "禾", "麥"], "reason": "豬喜五穀,得食豐足", "level": "major"},
+      {"roots": ["口", "宀", "冖"], "reason": "有豬舍安居,享清福", "level": "major"},
+      {"roots": ["氵", "水"], "reason": "亥屬水,得水相助", "level": "minor"},
+      {"roots": ["田"], "reason": "田間得食五穀,悠哉", "level": "minor"}
+    ],
+    "avoid": [
+      {"roots": ["王", "君", "長", "大"], "reason": "豬養大做祭品", "level": "major"},
+      {"roots": ["示"], "reason": "與祭祀相關,做犧牲", "level": "major"},
+      {"roots": ["彡", "巾", "衣", "采", "糸"], "reason": "披彩衣上供桌", "level": "minor"},
+      {"roots": ["刀", "力", "血", "皮"], "reason": "與屠宰相關", "level": "minor"}
+    ]
+  }
+}
