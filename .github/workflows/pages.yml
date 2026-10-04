@@ -41,7 +41,7 @@ jobs:
         run: |
           mkdir -p _site/app _site/data _site/db _site/vendor
           cp static/index.html _site/index.html
-          cp app/__init__.py app/wuge.py app/zodiac.py app/core.py app/bazi.py _site/app/
+          cp app/__init__.py app/wuge.py app/zodiac.py app/core.py app/bazi.py app/ten_gods.py _site/app/
           cp vendor/lunar_python-1.4.8.zip vendor/lunar_python-LICENSE vendor/README.md _site/vendor/
           cp data/shuli_81.json data/zodiac_extra.json data/name_pool.json data/english_names.json _site/data/
           cp db/naming.sqlite3 _site/db/

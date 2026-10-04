@@ -8,7 +8,7 @@ import re
 import sqlite3
 import unicodedata
 
-from . import wuge, zodiac
+from . import wuge, zodiac, ten_gods
 from .bazi import analyze_bazi
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -338,6 +338,7 @@ def _expand_name(rec, surname):
     這些欄位只有被抽中的名字用得到,先算會白算掉上萬個候選。"""
     combo = rec["_combo"]
     return {
+        "name_ten_gods": rec["_ten_gods"],
         "given": rec["given"],
         "full": surname + rec["given"],
         "tones": rec["_tones"],
@@ -392,7 +393,7 @@ def _char_entry(con, ch, zo, gloss, strict=True):
     }
 
 
-def _candidate_pool(con, zo, gender):
+def _candidate_pool(con, zo, gender, relax_zodiac=False):
     """通過生肖檢查(無重忌、總分不為負)的候選字,附音節資訊"""
     out = []
     seen = set()
@@ -403,7 +404,7 @@ def _candidate_pool(con, zo, gender):
         if gender and entry["gender"] not in (gender, "n"):
             continue
         seen.add(ch)
-        e = _char_entry(con, ch, zo, entry["gloss"], strict=True)
+        e = _char_entry(con, ch, zo, entry["gloss"], strict=not relax_zodiac)
         if e:
             out.append(e)
     return out
@@ -423,7 +424,10 @@ def suggest_names(surname: str, year: int = 2026, gender: str = "",
                   rarity: int = 1, luck: int = 1, max_strokes: int = 0,
                   like: str = "", dislike: str = "", exclude: str = "",
                   strokes_operator: str = "<=", strokes_basis: str = "modern",
-                  fixed_first: str = "", fixed_second: str = ""):
+                  fixed_first: str = "", fixed_second: str = "", zong_elements: str = "",
+                  zong_ten_gods: str = "", exclude_unfavorable: bool = True,
+                  relax_zodiac: bool = False, required_ten_gods: str = "",
+                  match_all_ten_gods: bool = True, relax_phonetic: bool = False):
     """組合推薦完整名字:生肖合格字 × 音韻(平仄)評分 × 三才五格過濾。
 
     limit 每批推薦數量(1~MAX_BATCH);多樣性上限隨批量等比放大
@@ -446,6 +450,27 @@ def suggest_names(surname: str, year: int = 2026, gender: str = "",
     if not 1 <= limit <= MAX_BATCH:
         raise ValueError(f"每批數量僅支援 1~{MAX_BATCH} 個")
 
+    if not isinstance(zong_elements, str) or any(e not in "木火土金水" for e in zong_elements):
+        raise ValueError("總格五行只能包含木、火、土、金、水，留空表示不限")
+    if not isinstance(zong_ten_gods, str):
+        raise ValueError("總格十神須為逗號分隔的十神名稱")
+    requested_gods = zong_ten_gods.split(',') if zong_ten_gods else []
+    if any(g not in ten_gods.GODS for g in requested_gods):
+        raise ValueError("總格十神包含不支援的名稱；偏官亦稱七殺，請選偏官")
+    if type(exclude_unfavorable) is not bool:
+        raise ValueError("排除傷官／劫財須為布林值")
+    if type(relax_phonetic) is not bool:
+        raise ValueError("音韻放寬須為布林值")
+    if type(relax_zodiac) is not bool:
+        raise ValueError("生肖放寬須為布林值")
+    if not isinstance(required_ten_gods, str):
+        raise ValueError("後天四格十神須為逗號分隔的名稱")
+    required = required_ten_gods.split(',') if required_ten_gods else []
+    if any(g not in ten_gods.GODS for g in required) or type(match_all_ten_gods) is not bool:
+        raise ValueError("後天四格十神或符合模式不正確")
+    required = [g for g in ten_gods.GODS if g in required]
+    selected_gods = [g for g in ten_gods.GODS if g in requested_gods]
+    selected_elements = [e for e in "木火土金水" if e in zong_elements]
     if strokes_operator not in ("<=", "=") or strokes_basis not in ("modern", "kangxi"):
         raise ValueError("筆畫條件須為 = 或 <=，基準須為 modern 或 kangxi")
     if type(max_strokes) is not int or max_strokes < 0 or (strokes_operator == "=" and not max_strokes):
@@ -468,7 +493,7 @@ def suggest_names(surname: str, year: int = 2026, gender: str = "",
         s_modern = sum(i["modern"] for i in s_infos)
 
         zo = zodiac.year_to_zodiac(year)
-        pool = _candidate_pool(con, zo, gender)
+        pool = _candidate_pool(con, zo, gender, relax_zodiac=relax_zodiac)
 
         banned_list = _parse_chars(dislike, max_chars=201)
         if len(banned_list) > 200:
@@ -523,6 +548,7 @@ def suggest_names(surname: str, year: int = 2026, gender: str = "",
         # 展示欄位(拼音/寓意等)延後到抽樣後才算
         results = []
         grid_cache = {}
+        ten_god_cache = {}
         ph_cache = {}
         for combo in combos:
             total_modern = s_modern + sum(c["modern"] for c in combo)
@@ -531,11 +557,24 @@ def suggest_names(surname: str, year: int = 2026, gender: str = "",
             total_selected = total_modern if strokes_basis == "modern" else sum(s_strokes) + sum(c["kangxi"] for c in combo)
             if max_strokes and (total_selected != max_strokes if strokes_operator == "=" else total_selected > max_strokes):
                 continue
+            total_kangxi = sum(s_strokes) + sum(c["kangxi"] for c in combo)
+            if selected_elements and wuge.wuxing_of(total_kangxi) not in selected_elements:
+                continue
             gkey = tuple(c["kangxi"] for c in combo)
             g = grid_cache.get(gkey)
             if g is None:
                 g = grid_cache[gkey] = _eval_grids(s_strokes, gkey)
             if not g:
+                continue
+            if gkey not in ten_god_cache:
+                ten_god_cache[gkey] = ten_gods.name_profile(s_strokes, list(gkey))
+            profile = ten_god_cache[gkey]
+            if selected_gods and profile['zong_ten_god'] not in selected_gods:
+                continue
+            actual_gods = {entry['ten_god'] for entry in profile['grids'] if entry['ten_god']}
+            if required and (not set(required).issubset(actual_gods) if match_all_ten_gods else not set(required) & actual_gods):
+                continue
+            if exclude_unfavorable and profile['has_caution']:
                 continue
             tier, sc_combo, sc_rating, sc_score, zong, zong_rating = g
             pkey = tuple((c["syll"]["plain"], c["syll"]["tone"]) for c in combo)
@@ -543,7 +582,7 @@ def suggest_names(surname: str, year: int = 2026, gender: str = "",
             if p is None:
                 p = ph_cache[pkey] = _eval_phonetic(s_sylls, combo)
             ph, ph_notes, tones, pingze = p
-            if ph < 0:
+            if ph < 0 and not relax_phonetic:
                 continue
             ztotal = sum(c["zscore"] for c in combo)
             rr = sum(c["rare"] for c in combo) / len(combo)  # 1 常見 ~ 5 冷門
@@ -559,6 +598,7 @@ def suggest_names(surname: str, year: int = 2026, gender: str = "",
                 "tier": tier,
                 "rank": rank,
                 "bad_sancai": sc_rating == "凶",
+                "_ten_gods": profile,
                 "_combo": combo,
                 "_tones": tones,
                 "_ph": ph,
@@ -589,7 +629,14 @@ def suggest_names(surname: str, year: int = 2026, gender: str = "",
                   _weighted_sample(avail, limit,
                                    liked={e["char"] for e in liked},
                                    fixed={c for c in (fixed_first, fixed_second) if c})]
+        for name in picked:
+            name["zong_element"] = wuge.wuxing_of(name["zong"])
         return {"surname": surname, "year": year, "zodiac": zo,
+                "required_ten_gods": required, "match_all_ten_gods": match_all_ten_gods,
+                "relax_phonetic": relax_phonetic,
+                "relax_zodiac": relax_zodiac,
+                "zong_elements": selected_elements,
+                "zong_ten_gods": selected_gods, "exclude_unfavorable": exclude_unfavorable,
                 "length": length, "total": len(filtered),
                 "fixed_first": fixed_first, "fixed_second": fixed_second,
                 "max_strokes": max_strokes, "strokes_operator": strokes_operator, "strokes_basis": strokes_basis,

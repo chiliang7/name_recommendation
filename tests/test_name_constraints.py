@@ -62,7 +62,7 @@ class ConstraintTests(unittest.TestCase):
 
     def test_http_get_and_post(self):
         params = dict(surname='郭', fixed_first='柏', fixed_second='均', max_strokes=31,
-                      strokes_operator='=', strokes_basis='kangxi', luck=0)
+                      strokes_operator='=', strokes_basis='kangxi', luck=0, zong_elements='木')
         for method in ('GET', 'POST'):
             handler = object.__new__(Handler)
             handler.path = '/api/suggest-names'
@@ -78,3 +78,32 @@ class ConstraintTests(unittest.TestCase):
                 handler.do_POST()
             self.assertEqual(result[0][0], 200)
             self.assertEqual([n['given'] for n in result[0][1]['names']], ['柏均'])
+
+class ElementTests(unittest.TestCase):
+    def test_elements_intersect_strokes_and_fixed_position(self):
+        args = dict(surname='郭', fixed_first='柏', strokes_basis='kangxi',
+                    strokes_operator='=', max_strokes=31, luck=0)
+        good = core.suggest_names(zong_elements='木水', **args)
+        self.assertTrue(good['names'])
+        self.assertTrue(all(n['zong_element'] == '木' and n['zong'] == 31 and n['given'][0] == '柏' for n in good['names']))
+        self.assertEqual(core.suggest_names(zong_elements='水', **args)['total'], 0)
+        modern = core.suggest_names('郭', fixed_first='柏', max_strokes=27, strokes_operator='=', zong_elements='木水')
+        self.assertTrue(modern['names'])
+        self.assertTrue(all(n['total_modern'] == 27 and core.wuge.wuxing_of(n['zong']) in '木水' for n in modern['names']))
+        for bad in ('木,水', '風', None, ['木']):
+            with self.assertRaises(ValueError):
+                core.suggest_names('郭', zong_elements=bad)
+
+    def test_count_suggestion_is_not_favorable_elements(self):
+        d = core.analyze_bazi('2022-08-28', '01:50')
+        self.assertEqual(d['count_suggestion']['elements'], ['木', '火', '金'])
+        self.assertIsNone(d['naming']['favorable_elements'])
+        self.assertFalse(d['count_suggestion']['provisional'])
+        d = core.analyze_bazi('2026-02-04')
+        self.assertTrue(d['count_suggestion']['provisional'])
+        self.assertEqual(d['count_suggestion']['elements'], ['木', '火', '水'])
+
+    def test_all_python_modules_compile(self):
+        from pathlib import Path
+        for path in list(Path('app').glob('*.py')) + [Path('server.py')]:
+            compile(path.read_text(), str(path), 'exec')

@@ -83,14 +83,14 @@
 <div class="wrap">
 
   <div class="tabs">
-    <button type="button" class="tab active" data-tab="bazi">八字分析</button>
+    <button type="button" class="tab active" data-tab="names">名字推薦</button>
+    <button type="button" class="tab" data-tab="bazi">八字分析</button>
     <div class="tab" data-tab="analyze">名字分析</div>
     <div class="tab" data-tab="suggest">生肖選字</div>
-    <div class="tab" data-tab="names">名字推薦</div>
   </div>
   <div id="py-status" class="card" style="display:none;background:#fdf8e3;border-color:#e0b400"></div>
 
-  <section id="tab-bazi">
+  <section id="tab-bazi" style="display:none">
     <form class="card" id="bazi-form">
       <h2 style="margin-top:0">先了解出生八字，再思考取名方向</h2>
       <p class="bazi-note">輸入西元出生日期與時間，查看四柱、日主及五行分布。時辰不詳也可以先看可確定的部分。</p>
@@ -150,7 +150,25 @@
   </section>
 
   <!-- 名字推薦 -->
-  <section id="tab-names" style="display:none">
+  <section id="tab-names">
+    <form class="card" id="nbazi-form">
+      <h2 style="margin-top:0">① 出生八字與五行方向（可選）</h2>
+      <p class="bazi-note">輸入西元出生日期與時間，查看四柱、日主及五行分布。時辰不詳也可以先看可確定的部分。</p>
+      <div class="row">
+        <div><label for="nb-date">出生日期（西元）</label><input type="date" id="nb-date" min="1900-01-01" max="2100-12-31" required></div>
+        <div><label for="nb-time">出生時間（24 小時制）</label><input type="time" id="nb-time" required></div>
+      </div>
+      <label style="margin:12px 0"><input type="checkbox" id="nb-unknown"> 不知道出生時間</label>
+      <div class="row">
+        <div><label for="nb-zone">時間基準</label><select id="nb-zone"><option value="UTC+08:00">UTC+8 標準時（台灣現行時間）</option></select></div>
+        <div><label for="nb-boundary">日柱換日規則</label><select id="nb-boundary"><option value="midnight">午夜 00:00 換日</option><option value="zi">子初 23:00 換日</option></select></div>
+      </div>
+      <p class="muted">目前支援 1900–2100 年。海外出生、歷史夏令時間需先確認時間基準；本版未校正出生地真太陽時。</p>
+      <button class="go" id="nb-submit" type="submit">分析出生八字</button>
+      <div class="err" id="nb-err" role="alert"></div>
+    </form>
+    <div id="nb-result" aria-live="polite"></div>
+
     <div class="card">
       <div class="row">
         <div><label>姓氏</label><input type="text" id="n-surname" maxlength="2" placeholder="例:郭"></div>
@@ -196,6 +214,22 @@
           </select>
         </div>
       </div>
+      <label style="margin-top:14px"><input type="checkbox" id="n-relax-zodiac"> 放寬生肖用字：允許精選字池中的生肖避用字入選</label>
+      <p class="muted">保留生肖扣分與避用原因；不放寬音韻、筆畫、五格或十神條件。字池外的字仍可透過固定字／想用的字指定。</p>
+      <label><input type="checkbox" id="n-relax-phonetic"> 放寬音韻門檻：允許音韻低分名字入選（保留分數與提示）</label>
+      <fieldset id="n-elements" style="margin-top:16px;border:1px solid var(--line);border-radius:8px">
+        <legend>總格五行（康熙，多選；未勾選＝不限）</legend>
+        <div class="row"><label><input type="checkbox" name="zong-element" value="木"> 木</label><label><input type="checkbox" name="zong-element" value="火"> 火</label><label><input type="checkbox" name="zong-element" value="土"> 土</label><label><input type="checkbox" name="zong-element" value="金"> 金</label><label><input type="checkbox" name="zong-element" value="水"> 水</label></div>
+        <p class="muted">木：尾數 1、2；火：3、4；土：5、6；金：7、8；水：9、0。依全名康熙總格判定，與上方現代筆畫條件分開。</p>
+        <div id="n-element-source" class="muted" aria-live="polite"></div>
+      </fieldset>
+      <fieldset style="margin-top:16px;border:1px solid var(--line);border-radius:8px">
+        <legend>後天四格十神（天／地／外／總；未勾選＝不限）</legend>
+        <div class="row"><label><input type="checkbox" name="zong-god" value="比肩"> 比肩</label><label><input type="checkbox" name="zong-god" value="劫財"> 劫財</label><label><input type="checkbox" name="zong-god" value="食神"> 食神</label><label><input type="checkbox" name="zong-god" value="傷官"> 傷官</label><label><input type="checkbox" name="zong-god" value="偏財"> 偏財</label><label><input type="checkbox" name="zong-god" value="正財"> 正財</label><label><input type="checkbox" name="zong-god" value="偏官"> 偏官</label><label><input type="checkbox" name="zong-god" value="正官"> 正官</label><label><input type="checkbox" name="zong-god" value="偏印"> 偏印</label><label><input type="checkbox" name="zong-god" value="正印"> 正印</label></div>
+        <label style="margin-top:12px"><input type="checkbox" id="n-match-all-gods" checked> 強制包含全部所選十神（允許其他十神；關閉＝任一符合）</label>
+        <label style="margin-top:12px"><input type="checkbox" id="n-exclude-gods" checked> 排除後天天／地／外／總任一格含傷官、劫財的名字</label>
+        <p class="muted">以棠模式（依對話推導）：五格取尾數，1甲、2乙、3丙、4丁、5戊、6己、7庚、8辛、9壬、0癸；以人格為後天日主。先天仍以出生日干計算。紅字是本模型的姓名警示，不代表先天十神吉凶。</p>
+      </fieldset>
       <button class="go" onclick="suggestNames()">推薦名字</button>
       <div class="err" id="n-err"></div>
     </div>
@@ -253,7 +287,7 @@ async function _initPy() {
   const vendorRes = await fetch('vendor/lunar_python-1.4.8.zip', { cache: 'no-cache' });
   if (!vendorRes.ok) throw new Error('缺少八字曆法套件');
   py.FS.writeFile('/home/pyodide/vendor/lunar_python-1.4.8.zip', new Uint8Array(await vendorRes.arrayBuffer()));
-  const files = ['app/__init__.py', 'app/wuge.py', 'app/zodiac.py', 'app/core.py', 'app/bazi.py',
+  const files = ['app/__init__.py', 'app/wuge.py', 'app/zodiac.py', 'app/core.py', 'app/bazi.py', 'app/ten_gods.py',
                  'data/shuli_81.json', 'data/zodiac_extra.json',
                  'data/name_pool.json', 'data/english_names.json'];
   // cache:'no-cache' 走 ETag 驗證:沒更新回 304 免重下載,有更新立即生效
@@ -302,31 +336,71 @@ json.dumps(_res, ensure_ascii=False)`);
   return JSON.parse(out);
 }
 
-$('b-unknown').onchange = () => {
-  $('b-time').disabled = $('b-unknown').checked;
-  $('b-time').required = !$('b-unknown').checked;
-};
-$('bazi-form').onsubmit = event => { event.preventDefault(); analyzeBazi(); };
-// Any edit clears the previous chart so it cannot be mistaken for the new input.
-$('bazi-form').addEventListener('input', () => {
-  $('b-result').innerHTML = ''; $('b-err').textContent = '';
-  baziRequest++;
+function renderNameGods(profile) {
+  return `<div class="muted">後天日主：${esc(profile.reference)}（人格）</div>` + profile.grids.filter(g => g.ten_god).map(g =>
+    `<div style="white-space:nowrap;${g.caution ? 'color:var(--bad);font-weight:600' : ''}" title="${esc(g.label)} ${g.number} → 尾${g.digit} → ${esc(g.stem)}">${esc(g.label)}：${esc(g.ten_god)}${g.caution ? ' ⚠' : ''}</div>`).join('');
+}
+function renderNatalGods(profile, complete) {
+  if (!profile.available) return `<div class="card"><h3>先天十神（待確認）</h3><p>${esc(profile.note)}</p></div>`;
+  return `<div class="card"><h3>先天十神分布${complete ? '' : '（部分）'} · 日主${esc(profile.reference)}</h3>
+    <p class="muted">${esc(profile.note)}</p>
+    <div class="pillars">${profile.pillars.map(p => `<div class="grid-cell"><b>${esc(p.label)}</b><p>${esc(p.stem || '待確認')} · ${esc(p.ten_god || (p.stem ? '日主' : '待確認'))}</p><small>藏干：${p.hidden.map(h => esc(h.stem + ' ' + h.ten_god)).join('、') || '待確認'}</small></div>`).join('')}</div>
+    <table class="pool"><tr><th>十神</th><th>天干次數（不含日主）</th><th>藏干次數</th></tr>${Object.entries(profile.stem_counts).map(([g,c]) => `<tr><td>${esc(g)}</td><td>${c}</td><td>${profile.hidden_counts[g]}</td></tr>`).join('')}</table>
+    <p class="muted">先天與後天基準不同，次數不直接相加；可依偏好手動選擇下方後天四格十神。</p></div>`;
+}
+const birthCharts = {}, birthRequests = {b: 0, nb: 0};
+let appliedBirthSource = null;
+for (const prefix of ['b', 'nb']) {
+  const form = $(prefix === 'b' ? 'bazi-form' : 'nbazi-form');
+  $(prefix + '-unknown').onchange = () => {
+    $(prefix + '-time').disabled = $(prefix + '-unknown').checked;
+    $(prefix + '-time').required = !$(prefix + '-unknown').checked;
+  };
+  form.onsubmit = event => { event.preventDefault(); analyzeBazi(prefix); };
+  form.addEventListener('input', () => {
+    birthRequests[prefix]++;
+    delete birthCharts[prefix];
+    $(prefix + '-result').innerHTML = ''; $(prefix + '-err').textContent = '';
+    if (appliedBirthSource === prefix) {
+      document.querySelectorAll('[name="zong-element"]').forEach(e => e.checked = false);
+      $('n-element-source').textContent = '出生資料已修改，請重新分析並套用建議。';
+      appliedBirthSource = null;
+      $('n-result').innerHTML = '';
+    }
+  });
+}
+$('n-elements').addEventListener('change', () => {
+  appliedBirthSource = null;
+  $('n-element-source').textContent = '目前為手動選擇。';
+  $('n-result').innerHTML = '';
 });
-let baziRequest = 0;
-async function analyzeBazi() {
-  const request = ++baziRequest;
-  $('b-err').textContent = '';
-  $('b-result').innerHTML = '<div class="card muted">正在排盤…</div>';
-  $('b-submit').disabled = true;
+function applyBirthElements(prefix) {
+  const d = birthCharts[prefix];
+  if (!d) return;
+  document.querySelectorAll('[name="zong-element"]').forEach(e => e.checked = d.count_suggestion.elements.includes(e.value));
+  appliedBirthSource = prefix;
+  $('n-year').value = d.birth_date.slice(0, 4);
+  $('n-element-source').textContent = `${d.count_suggestion.provisional ? '暫定建議' : '已套用簡化建議'}：${d.count_suggestion.elements.join('、')}（${d.birth_date}）。生肖沿用出生西元年規則。其他筆畫與固定字條件仍保留。`;
+  $('n-result').innerHTML = '';
+  document.querySelector('[data-tab="names"]').click();
+  $('n-elements').scrollIntoView({behavior: 'smooth', block: 'center'});
+}
+async function analyzeBazi(prefix = 'b') {
+  const request = ++birthRequests[prefix];
+  delete birthCharts[prefix];
+  $(prefix + '-err').textContent = '';
+  $(prefix + '-result').innerHTML = '<div class="card muted">正在排盤…</div>';
+  $(prefix + '-submit').disabled = true;
   try {
     const r = await api('analyze_bazi', {
-      birth_date: $('b-date').value,
-      birth_time: $('b-unknown').checked ? null : $('b-time').value,
-      timezone: $('b-zone').value, day_boundary: $('b-boundary').value
+      birth_date: $(prefix + '-date').value,
+      birth_time: $(prefix + '-unknown').checked ? null : $(prefix + '-time').value,
+      timezone: $(prefix + '-zone').value, day_boundary: $(prefix + '-boundary').value
     });
-    if (request !== baziRequest) return;
+    if (request !== birthRequests[prefix]) return;
     if (!r.ok) throw new Error(r.detail);
     const d = r.data, dm = d.day_master;
+    birthCharts[prefix] = d;
     let html = `<div class="card"><div class="muted">${esc(d.birth_date)} ${esc(d.birth_time || '時辰不詳')} · UTC+8 · ${d.day_boundary === 'zi' ? '23:00' : '00:00'} 換日</div>
       <h3>${d.complete ? '四柱八字' : '部分命盤 · 時辰待補'}</h3><div class="pillars">`;
     html += d.pillars.map(p => `<div class="grid-cell"><div class="g-name">${esc(p.label)}</div>
@@ -340,14 +414,21 @@ async function analyzeBazi() {
       <p class="muted">${esc(d.count_method)}本次共計 ${d.counted_characters} 個已確定干支字。</p>`;
     html += Object.entries(d.element_counts).map(([e, count]) => `<div class="element-row"><b>${esc(e)}</b><meter min="0" max="8" value="${count}" aria-label="${esc(e)} ${count} 個">${count}/8</meter><span>${count} 個</span><small class="muted">藏干 ${d.hidden_element_counts[e]} 次</small></div>`).join('');
     html += `<p class="bazi-note">已確定干支表層未出現：<b>${esc(d.visible_absent.join('、') || '無')}</b><br>連同藏干仍未出現：${esc(d.absent_including_hidden.join('、') || '無')}</p></div>
+      ${renderNatalGods(d.ten_gods, d.complete)}
       <div class="card"><h3>接下來的取名方向</h3><p class="bazi-note">${esc(d.naming.summary)}</p>
       <p class="bazi-note">${esc(d.naming.next_step)}</p>
       <details><summary>五行字義意象參考（不是喜用神建議）</summary><ul class="plain">${d.naming.directions.map(x => `<li>${esc(x.element)}：${esc(x.imagery)}</li>`).join('')}</ul></details>
       <p class="muted">${esc(d.disclaimer)}</p></div>`;
-    $('b-result').innerHTML = html;
+    const suggestion = d.count_suggestion;
+    html += `<div class="card"><h3>${suggestion.provisional ? '暫定' : ''}總格五行篩選建議</h3>
+      <p class="bazi-note">${esc(suggestion.method)}</p>
+      <p>${suggestion.elements.length ? '表層個數較少：' + suggestion.elements.map(esc).join('、') : '目前分布沒有低於平均的項目，可自行選擇總格五行或保持不限。'}</p>
+      ${suggestion.provisional ? '<p class="muted">時辰不詳，此建議僅根據已確定的柱；補齊時間後可能改變。</p>' : ''}
+      ${suggestion.elements.length ? `<button class="go" type="button" onclick="applyBirthElements('${prefix}')">套用${suggestion.elements.map(esc).join('＋')}至總格篩選</button>` : ''}</div>`;
+    $(prefix + '-result').innerHTML = html;
   } catch (e) {
-    if (request === baziRequest) { $('b-err').textContent = e.message || '分析失敗，請稍後重試。'; $('b-result').innerHTML = ''; }
-  } finally { $('b-submit').disabled = false; }
+    if (request === birthRequests[prefix]) { $(prefix + '-err').textContent = e.message || '分析失敗，請稍後重試。'; $(prefix + '-result').innerHTML = ''; }
+  } finally { $(prefix + '-submit').disabled = false; }
 }
 
 async function analyze() {
@@ -475,6 +556,12 @@ async function suggestNames() {
     max_strokes: +$('n-maxstrokes').value || 0,
     strokes_operator: $('n-strokes-operator').value,
     strokes_basis: $('n-strokes-basis').value,
+    required_ten_gods: [...document.querySelectorAll('[name="zong-god"]:checked')].map(e => e.value).join(','),
+    match_all_ten_gods: $('n-match-all-gods').checked,
+    exclude_unfavorable: $('n-exclude-gods').checked,
+    relax_zodiac: $('n-relax-zodiac').checked,
+    relax_phonetic: $('n-relax-phonetic').checked,
+    zong_elements: [...document.querySelectorAll('[name="zong-element"]:checked')].map(e => e.value).join(''),
     fixed_first: $('n-first').value.trim(),
     fixed_second: +$('n-length').value === 2 ? $('n-second').value.trim() : '',
     like: $('n-like').value,
@@ -495,11 +582,17 @@ async function suggestNames() {
 
   let warn = '';
   const constraints = [];
+  if (d.relax_phonetic) constraints.push('音韻門檻已放寬（保留音韻評分）');
+  if (d.relax_zodiac) constraints.push('生肖用字已放寬（保留避用警語）');
+  if (d.zong_elements && d.zong_elements.length) constraints.push(`康熙總格五行：${d.zong_elements.map(esc).join('、')}`);
+  if (d.required_ten_gods && d.required_ten_gods.length) constraints.push(`後天四格${d.match_all_ten_gods ? '必含全部' : '任一符合'}：${d.required_ten_gods.map(esc).join('、')}`);
+  if (d.zong_ten_gods && d.zong_ten_gods.length) constraints.push(`後天總格十神：${d.zong_ten_gods.map(esc).join('、')}`);
+  if (d.exclude_unfavorable) constraints.push('排除後天任一格傷官／劫財');
   if (d.max_strokes) constraints.push(`${d.strokes_basis === 'kangxi' ? '康熙' : '現代'}全名總筆畫 ${esc(d.strokes_operator)} ${d.max_strokes}`);
   if (d.fixed_first) constraints.push(`名字第一字：${esc(d.fixed_first)}`);
   if (d.fixed_second) constraints.push(`名字第二字：${esc(d.fixed_second)}`);
   if (constraints.length) warn += `<div class="card">目前鎖定：${constraints.join('；')}。固定字沿用指定用字規則，生肖忌用會附註。</div>`;
-  if (!d.total) warn += '<div class="card">沒有符合全部條件的名字。可調整總筆畫、固定字、想用／不想用的字或其他篩選條件；筆畫與固定位置不會自動放寬。</div>';
+  if (!d.total) warn += '<div class="card">沒有符合全部條件的名字。可調整總筆畫、總格五行／十神、固定字或其他條件；筆畫、五行、十神與固定位置不會自動放寬。</div>';
 
   if (d.missing_like && d.missing_like.length)
     warn += `<div class="card" style="border-color:#e0b400;background:#fdf8e3">
@@ -518,7 +611,7 @@ async function suggestNames() {
   if (d.seen_reset)
     warn += `<div class="card" style="border-color:#cfe3cf;background:#f2f9f2">
       🎲 此條件下的名字組合已全部看過一輪,重新開始抽樣。</div>`;
-  if (d.luck_relaxed && !d.sancai_warning)
+  if (d.total && d.luck_relaxed && !d.sancai_warning)
     warn += `<div class="card" style="border-color:#e0b400;background:#fdf8e3">
       ⚠ 此條件下沒有達到所選吉度門檻的組合,已自動放寬顯示較普通的名字。</div>`;
   if (d.sancai_warning)
@@ -534,7 +627,8 @@ async function suggestNames() {
     <td>${esc(n.tones)}<br><span class="muted">${esc(n.pingze)}</span></td>
     <td>${n.phonetic}</td>
     <td>${esc(n.sancai.combo)} ${rate(n.sancai.rating)}</td>
-    <td>${n.zong} ${rate(n.zong_rating)}</td>
+    <td>${n.zong} · ${esc(n.zong_element)} ${rate(n.zong_rating)}</td>
+    <td>${renderNameGods(n.name_ten_gods)}</td>
     <td>${n.favor.map(f => `<span class="tag">${esc(f)}</span>`).join('') || '<span class="muted">—</span>'}</td>
     <td class="muted">${esc(n.gloss)}<br>${n.notes.map(esc).join(';')}</td>
   </tr>`).join('');
@@ -542,17 +636,17 @@ async function suggestNames() {
   $('n-result').innerHTML = warn + `<div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px">
       <div class="muted">
-        共 ${d.total} 個合格組合(已排除生肖重忌、三才大凶、人/地/總格數理凶),
+        共 ${d.total} 個合格組合（${d.relax_zodiac ? '生肖避用字可入選' : '一般候選排除生肖重忌；指定字例外'}；仍套用五格條件${d.relax_phonetic ? '，音韻低分可入選' : '與音韻門檻'}），
         依分數加權隨機抽 ${d.names.length} 個;點擊名字看完整分析,諧音請自己唸唸看。${
         d.seen_skipped ? `<br>已避開先前出現過的 ${d.seen_skipped} 個名字
           (<a href="javascript:resetSeen()">重設,允許重複</a>)。` : ''}</div>
       <button onclick="suggestNames()" style="flex-shrink:0;padding:8px 16px;border:1px solid var(--line);
         border-radius:8px;background:#fffdf9;cursor:pointer;font-size:14px">🎲 換一批</button>
     </div>
-    <table class="pool">
-      <tr><th>名字</th><th>護照拼音(名)</th><th>聲調/平仄</th><th>音韻分</th><th>三才</th><th>總格（康熙）</th><th>生肖加分</th><th>寓意/音韻備註</th></tr>
+    <div style="overflow-x:auto"><table class="pool">
+      <tr><th>名字</th><th>護照拼音(名)</th><th>聲調/平仄</th><th>音韻分</th><th>三才</th><th>總格（康熙）</th><th>後天十神（以棠推導模式）</th><th>生肖加分</th><th>寓意/音韻備註</th></tr>
       ${rows}
-    </table></div>`;
+    </table></div></div>`;
 }
 
 function fillAnalyze(surname, given) {

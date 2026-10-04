@@ -3,6 +3,7 @@ from datetime import datetime
 from pathlib import Path
 import re
 import sys
+from .ten_gods import natal_profile
 
 _ARCHIVE = str(Path(__file__).resolve().parent.parent / "vendor" / "lunar_python-1.4.8.zip")
 if _ARCHIVE not in sys.path:
@@ -75,7 +76,13 @@ def analyze_bazi(birth_date, birth_time=None, timezone="UTC+08:00", day_boundary
         "polarity": "陽" if "甲乙丙丁戊己庚辛壬癸".index(day[0]) % 2 == 0 else "陰"}
     absent = [e for e in ELEMENTS if counts[e] == 0]
     absent_including_hidden = [e for e in absent if hidden_counts[e] == 0]
+    # A transparent count heuristic, not a determination of favorable elements.
+    total = sum(counts.values())
+    suggested = [e for e in ELEMENTS if counts[e] < total / 5] if total else []
     return {
+        "ten_gods": natal_profile(pillars, day_master),
+        "count_suggestion": {"elements": suggested, "provisional": not known_time,
+                             "method": "建議選取表層個數低於五行平均值的項目（含未出現者）；這是簡化篩選策略，不是旺衰或喜用神判定。"},
         "birth_date": birth_date, "birth_time": birth_time if known_time else None,
         "timezone": timezone, "day_boundary": day_boundary,
         "complete": known_time, "pillars": pillars, "day_master": day_master,
