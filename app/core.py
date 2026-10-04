@@ -421,14 +421,18 @@ def _parse_chars(text: str, max_chars=4):
 def suggest_names(surname: str, year: int = 2026, gender: str = "",
                   length: int = 2, limit: int = 100,
                   rarity: int = 1, luck: int = 1, max_strokes: int = 0,
-                  like: str = "", dislike: str = "", exclude: str = ""):
+                  like: str = "", dislike: str = "", exclude: str = "",
+                  strokes_operator: str = "<=", strokes_basis: str = "modern",
+                  fixed_first: str = "", fixed_second: str = ""):
     """組合推薦完整名字:生肖合格字 × 音韻(平仄)評分 × 三才五格過濾。
 
     limit 每批推薦數量(1~MAX_BATCH);多樣性上限隨批量等比放大
     rarity 冷門度:0 常見優先 / 1 均衡 / 2 偏冷門(調整冷門字的抽樣權重)
     luck 吉度門檻:2 嚴選(三才大吉且人地總數理皆吉)/ 1 吉以上(三才大吉或吉,預設)
                   / 0 寬鬆(排除大凶即可);無符合時自動逐級放寬並回報
-    max_strokes 全名總筆畫上限(現代筆畫、實際書寫),0 = 不限
+    max_strokes 全名總筆畫目標；strokes_operator 為 <=（預設）或 =
+    strokes_basis 為 modern（預設，書寫筆畫）或 kangxi（康熙總格）；<= 時 0 = 不限
+    fixed_first / fixed_second 固定名字位置（不含姓），不受性別／生肖剔除，保留警語
     like 想用的字(如「程,睿」):推薦的名字必含其中至少一字;
          指定字不受性別/生肖忌用剔除,但有忌用會附警語(最多取 4 字)
     dislike 不想用的字:推薦一律排除(最多 200 字,超過報錯);與 like 衝突時報錯
@@ -442,6 +446,15 @@ def suggest_names(surname: str, year: int = 2026, gender: str = "",
     if not 1 <= limit <= MAX_BATCH:
         raise ValueError(f"每批數量僅支援 1~{MAX_BATCH} 個")
 
+    if strokes_operator not in ("<=", "=") or strokes_basis not in ("modern", "kangxi"):
+        raise ValueError("筆畫條件須為 = 或 <=，基準須為 modern 或 kangxi")
+    if type(max_strokes) is not int or max_strokes < 0 or (strokes_operator == "=" and not max_strokes):
+        raise ValueError("總筆畫須為非負整數；使用 = 時請輸入大於 0 的筆畫數")
+    for value in (fixed_first, fixed_second):
+        if not isinstance(value, str) or (value and (len(value) != 1 or not "一" <= value <= "鿿")):
+            raise ValueError("固定位置請輸入一個繁體中文字")
+    if length == 1 and fixed_second:
+        raise ValueError("單字名沒有第二字，請清除固定第二字或改用雙字名")
     con = _conn()
     try:
         s_infos = []
@@ -462,9 +475,9 @@ def suggest_names(surname: str, year: int = 2026, gender: str = "",
             raise ValueError("不想用的字太多(上限 200 字)")
         banned = set(banned_list)
         liked_chars = _parse_chars(like)
-        conflict = banned & set(liked_chars)
+        conflict = banned & (set(liked_chars) | {fixed_first, fixed_second})
         if conflict:
-            raise ValueError(f"「{'、'.join(conflict)}」同時在想用與不想用清單,請擇一")
+            raise ValueError(f"「{'、'.join(conflict)}」同時在想用／固定字與不想用清單,請擇一")
         if banned:
             pool = [e for e in pool if e["char"] not in banned]
         liked, missing_like = [], []
@@ -475,7 +488,18 @@ def suggest_names(surname: str, year: int = 2026, gender: str = "",
         if liked_chars and not liked:
             raise ValueError(f"想用的字查無:{'、'.join(missing_like)}(限 Big5 繁體字)")
 
-        if liked:
+        fixed = []
+        for ch in (fixed_first, fixed_second):
+            entry = _char_entry(con, ch, zo, POOL_GLOSS.get(ch, "固定用字"), strict=False) if ch else None
+            if ch and not entry:
+                raise ValueError(f"固定字查無:{ch}(限有讀音的 Big5 繁體字)")
+            fixed.append(entry)
+        if any(fixed):
+            partners = {e["char"]: e for e in pool + liked}
+            first = [fixed[0]] if fixed[0] else list(partners.values())
+            second = [fixed[1]] if fixed[1] else list(partners.values())
+            combos = ((a,) for a in first) if length == 1 else ((a, b) for a in first for b in second)
+        elif liked:
             # 名字必含至少一個指定字;雙名時前後位置都試,指定字互配也算
             if length == 1:
                 combos = [(L,) for L in liked]
@@ -502,7 +526,10 @@ def suggest_names(surname: str, year: int = 2026, gender: str = "",
         ph_cache = {}
         for combo in combos:
             total_modern = s_modern + sum(c["modern"] for c in combo)
-            if max_strokes and total_modern > max_strokes:
+            if liked_chars and not any(c["char"] in liked_chars for c in combo):
+                continue
+            total_selected = total_modern if strokes_basis == "modern" else sum(s_strokes) + sum(c["kangxi"] for c in combo)
+            if max_strokes and (total_selected != max_strokes if strokes_operator == "=" else total_selected > max_strokes):
                 continue
             gkey = tuple(c["kangxi"] for c in combo)
             g = grid_cache.get(gkey)
@@ -560,9 +587,12 @@ def suggest_names(surname: str, year: int = 2026, gender: str = "",
             avail = filtered
         picked = [_expand_name(n, surname) for n in
                   _weighted_sample(avail, limit,
-                                   liked={e["char"] for e in liked})]
+                                   liked={e["char"] for e in liked},
+                                   fixed={c for c in (fixed_first, fixed_second) if c})]
         return {"surname": surname, "year": year, "zodiac": zo,
                 "length": length, "total": len(filtered),
+                "fixed_first": fixed_first, "fixed_second": fixed_second,
+                "max_strokes": max_strokes, "strokes_operator": strokes_operator, "strokes_basis": strokes_basis,
                 "sancai_warning": all_bad,
                 "seen_reset": seen_reset,
                 "seen_skipped": 0 if seen_reset else len(filtered) - len(avail),
@@ -579,7 +609,7 @@ def suggest_names(surname: str, year: int = 2026, gender: str = "",
 
 
 def _weighted_sample(results, limit, pool_size=None, max_char_repeat=None,
-                     liked=frozenset()):
+                     liked=frozenset(), fixed=frozenset()):
     """從高分候選中加權隨機抽樣:分數越高越容易被抽中,但每次結果不同。
     多樣性限制:同一個字最多 max_char_repeat 次(指定字除外)、
     同一種平仄型態最多佔一半(避免整批都是平仄平)、
@@ -613,7 +643,7 @@ def _weighted_sample(results, limit, pool_size=None, max_char_repeat=None,
         n = pool[i]
         in_liked = [c for c in n["given"] if c in liked]
         if (any(char_used.get(c, 0) >= max_char_repeat
-                for c in n["given"] if c not in liked)
+                for c in n["given"] if c not in liked and c not in fixed)
                 or pattern_used.get(n["pingze"], 0) >= max_pattern
                 or (in_liked and all(liked_used.get(c, 0) >= liked_cap
                                      for c in in_liked))):

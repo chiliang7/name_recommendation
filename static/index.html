@@ -29,6 +29,7 @@
     border-radius: 8px; background: #fffdf9; }
   .row { display: flex; gap: 12px; flex-wrap: wrap; }
   .row > div { flex: 1; min-width: 120px; }
+  #tab-names .row + .row > div { flex-basis: 220px; }
   button.go { margin-top: 14px; width: 100%; padding: 12px; font-size: 16px; border: 0;
               border-radius: 10px; background: var(--accent); color: #fff; cursor: pointer; }
   button.go:hover { opacity: .92; }
@@ -176,8 +177,12 @@
             <option value="0">寬鬆(不凶即可)</option>
           </select>
         </div>
-        <div><label>全名總筆畫上限(含姓,書寫筆畫)</label>
-          <input type="number" id="n-maxstrokes" placeholder="不限" min="0"></div>
+        <div><label>全名總筆畫（含姓）</label>
+          <select id="n-strokes-basis" aria-label="總筆畫基準"><option value="modern">現代書寫筆畫</option><option value="kangxi">康熙筆畫（總格）</option></select>
+          <select id="n-strokes-operator" aria-label="總筆畫運算子"><option value="<=">≤ 小於或等於</option><option value="=">= 等於</option></select>
+          <input type="number" id="n-maxstrokes" aria-label="總筆畫數" placeholder="不限（等於時必填）" min="0" step="1"></div>
+        <div><label for="n-first">固定名字第一字（不含姓）</label><input type="text" id="n-first" maxlength="1" placeholder="例：柏"></div>
+        <div><label for="n-second">固定名字第二字（雙字名）</label><input type="text" id="n-second" maxlength="1" placeholder="例：昇"></div>
         <div><label>想用的字(可多個,任意分隔)</label>
           <input type="text" id="n-like" placeholder="例:程,睿"></div>
         <div><label>不想用的字</label>
@@ -452,6 +457,9 @@ async function suggest() {
 }
 // 換一批不重複:記住已出現過的名字,同條件下抽樣時避開;條件改變即重設
 let _seen = { key: '', names: [] };
+$('n-length').addEventListener('change', () => {
+  $('n-second').disabled = +$('n-length').value === 1;
+});
 
 function resetSeen() { _seen = { key: '', names: [] }; suggestNames(); }
 
@@ -465,6 +473,10 @@ async function suggestNames() {
     rarity: +$('n-rarity').value,
     luck: +$('n-luck').value,
     max_strokes: +$('n-maxstrokes').value || 0,
+    strokes_operator: $('n-strokes-operator').value,
+    strokes_basis: $('n-strokes-basis').value,
+    fixed_first: $('n-first').value.trim(),
+    fixed_second: +$('n-length').value === 2 ? $('n-second').value.trim() : '',
     like: $('n-like').value,
     dislike: $('n-dislike').value,
     limit: +$('n-limit').value
@@ -482,13 +494,20 @@ async function suggestNames() {
     if (!_seen.names.includes(n.given)) _seen.names.push(n.given);
 
   let warn = '';
+  const constraints = [];
+  if (d.max_strokes) constraints.push(`${d.strokes_basis === 'kangxi' ? '康熙' : '現代'}全名總筆畫 ${esc(d.strokes_operator)} ${d.max_strokes}`);
+  if (d.fixed_first) constraints.push(`名字第一字：${esc(d.fixed_first)}`);
+  if (d.fixed_second) constraints.push(`名字第二字：${esc(d.fixed_second)}`);
+  if (constraints.length) warn += `<div class="card">目前鎖定：${constraints.join('；')}。固定字沿用指定用字規則，生肖忌用會附註。</div>`;
+  if (!d.total) warn += '<div class="card">沒有符合全部條件的名字。可調整總筆畫、固定字、想用／不想用的字或其他篩選條件；筆畫與固定位置不會自動放寬。</div>';
+
   if (d.missing_like && d.missing_like.length)
     warn += `<div class="card" style="border-color:#e0b400;background:#fdf8e3">
       ⚠ 想用的字查無:${d.missing_like.map(esc).join('、')}(限 Big5 繁體字),已忽略。</div>`;
   if (d.liked_unmatched && d.liked_unmatched.length)
     warn += `<div class="card" style="border-color:#e0b400;background:#fdf8e3">
       ⚠ 「${d.liked_unmatched.map(esc).join('、')}」與「${esc(d.surname)}」姓在目前吉度門檻下
-      沒有合格組合(筆畫結構使三才偏凶)。想看這些字的組合,請把吉度門檻調成「寬鬆」。</div>`;
+      沒有符合全部條件的組合。請檢查筆畫、固定位置與其他篩選條件。</div>`;
   const matched = (d.liked || []).filter(c => !(d.liked_unmatched || []).includes(c));
   if (matched.length || (d.disliked || []).length) {
     const parts = [];
@@ -509,7 +528,7 @@ async function suggestNames() {
 
   const rows = d.names.map(n => `<tr style="cursor:pointer" title="點擊查看完整分析"
       onclick="fillAnalyze('${esc(d.surname)}','${esc(n.given)}')">
-    <td class="ch">${esc(n.full)}<br><span class="muted" style="font-size:12px;font-weight:400">${n.total_modern}劃${n.rare >= 3.5 ? '·冷門' : n.rare >= 2.5 ? '·少見' : ''}</span></td>
+    <td class="ch">${esc(n.full)}<br><span class="muted" style="font-size:12px;font-weight:400">書寫 ${n.total_modern} 劃${n.rare >= 3.5 ? '·冷門' : n.rare >= 2.5 ? '·少見' : ''}</span></td>
     <td style="white-space:nowrap"><span title="威妥瑪(護照傳統拼法)">威 ${esc(n.wade || '')}</span><br>
         <span class="muted" title="漢語拼音(國際通行拼法)">漢 ${esc(n.hanyu || '')}</span></td>
     <td>${esc(n.tones)}<br><span class="muted">${esc(n.pingze)}</span></td>
@@ -531,7 +550,7 @@ async function suggestNames() {
         border-radius:8px;background:#fffdf9;cursor:pointer;font-size:14px">🎲 換一批</button>
     </div>
     <table class="pool">
-      <tr><th>名字</th><th>護照拼音(名)</th><th>聲調/平仄</th><th>音韻分</th><th>三才</th><th>總格</th><th>生肖加分</th><th>寓意/音韻備註</th></tr>
+      <tr><th>名字</th><th>護照拼音(名)</th><th>聲調/平仄</th><th>音韻分</th><th>三才</th><th>總格（康熙）</th><th>生肖加分</th><th>寓意/音韻備註</th></tr>
       ${rows}
     </table></div>`;
 }

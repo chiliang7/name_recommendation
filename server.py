@@ -47,6 +47,10 @@ class Handler(BaseHTTPRequestHandler):
                                               max_strokes=int(q.get("max_strokes", 0)),
                                               like=q.get("like", ""),
                                               dislike=q.get("dislike", ""),
+                                              strokes_operator=q.get("strokes_operator", "<="),
+                                              strokes_basis=q.get("strokes_basis", "modern"),
+                                              fixed_first=q.get("fixed_first", ""),
+                                              fixed_second=q.get("fixed_second", ""),
                                               exclude=q.get("exclude", "")))
             except ValueError as e:
                 self._json({"detail": str(e)}, 400)
@@ -91,6 +95,10 @@ class Handler(BaseHTTPRequestHandler):
                                               max_strokes=int(req.get("max_strokes", 0)),
                                               like=req.get("like", ""),
                                               dislike=req.get("dislike", ""),
+                                              strokes_operator=req.get("strokes_operator", "<="),
+                                              strokes_basis=req.get("strokes_basis", "modern"),
+                                              fixed_first=req.get("fixed_first", ""),
+                                              fixed_second=req.get("fixed_second", ""),
                                               exclude=req.get("exclude", "")))
             except ValueError as e:
                 self._json({"detail": str(e)}, 400)

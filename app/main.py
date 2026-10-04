@@ -53,12 +53,19 @@ def suggest_chars(year: int = 2026, gender: str = ""):
 @app.get("/api/suggest-names")
 def suggest_names(surname: str, year: int = 2026, gender: str = "", length: int = 2,
                   limit: int = 100, rarity: int = 1, luck: int = 1,
-                  max_strokes: int = 0, like: str = "", dislike: str = "",
-                  exclude: str = ""):
+                  max_strokes: int = 0
+    strokes_operator: str = "<="
+    strokes_basis: str = "modern"
+    fixed_first: str = ""
+    fixed_second: str = "", like: str = "", dislike: str = "",
+                  exclude: str = "", strokes_operator: str = "<=",
+                  strokes_basis: str = "modern", fixed_first: str = "", fixed_second: str = ""):
     try:
         return core.suggest_names(surname, year, gender, length, limit=limit,
                                   rarity=rarity, luck=luck, max_strokes=max_strokes,
-                                  like=like, dislike=dislike, exclude=exclude)
+                                  like=like, dislike=dislike, exclude=exclude,
+                                  strokes_operator=strokes_operator, strokes_basis=strokes_basis,
+                                  fixed_first=fixed_first, fixed_second=fixed_second)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -72,6 +79,10 @@ class SuggestNamesReq(BaseModel):
     rarity: int = 1
     luck: int = 1
     max_strokes: int = 0
+    strokes_operator: str = "<="
+    strokes_basis: str = "modern"
+    fixed_first: str = ""
+    fixed_second: str = ""
     like: str = ""
     dislike: str = ""
     exclude: str = ""  # 已看過的名字(換一批不重複),可能很長故走 POST
@@ -85,7 +96,9 @@ def suggest_names_post(req: SuggestNamesReq):
                                   rarity=req.rarity, luck=req.luck,
                                   max_strokes=req.max_strokes,
                                   like=req.like, dislike=req.dislike,
-                                  exclude=req.exclude)
+                                  exclude=req.exclude,
+                                  strokes_operator=req.strokes_operator, strokes_basis=req.strokes_basis,
+                                  fixed_first=req.fixed_first, fixed_second=req.fixed_second)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
